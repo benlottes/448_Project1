@@ -1,0 +1,42 @@
+<HTML>
+    <head>
+      <style>
+
+        canvas{
+	        position: absolute;
+          top: 50%;
+          left: 50%;
+          margin-left: -550px;
+          margin-top: -100px;
+        }
+        button{
+            position: absolute; 
+            top: 20%;
+            left:50%;   
+            margin-left: -90px;
+            margin-top:100px;
+            top:10px;
+            font-size: 30px;
+        }
+      </style>
+    </head>
+    <body>
+        <div class = "container">
+        <button name = "startButton" 
+                id = "startBtn"
+                type = "button" 
+                style = "background-color: rgb(102, 167, 48)" 
+                onclick = "placeShipsPlayer1()"
+                >Start Game</button>
+        <canvas id="projectCanvas"
+                width="1100"
+                height="1000"
+                style="background: blue">
+        </canvas>
+      </div>
+     
+    </body>
+    <script src="battleship.js">
+    </script>
+  </HTML>
+  
