@@ -123,7 +123,6 @@ function placeShipsPlayer1() {
             updateLowerBoards();
         }
     }
-    updateLowerBoards();
     document.getElementById("message").innerHTML = "Game in progress...";
     document.getElementById("startBtn").remove();//remove start button
 }
@@ -192,14 +191,14 @@ function updateLowerBoards() {
             if (board4[i][j] == '0') {
                 context.fillStyle = 'White';
                 context.beginPath();
-                context.arc(j * 40 + 110, i * 40 + 510, 20, 0, 2 * Math.PI); //x=100 y=500
+                context.arc(j * 40 + 610, i * 40 + 510, 20, 0, 2 * Math.PI); //x=600 y=500
                 context.fill();
                 context.closePath();
             }
             else if (board4[i][j] == 'Ship') {
                 context.fillStyle = 'black';
                 context.beginPath();
-                context.arc(j * 40 + 110, i * 40 + 510, 20, 0, 2 * Math.PI); //x=100 y=500
+                context.arc(j * 40 + 610, i * 40 + 510, 20, 0, 2 * Math.PI); //x=600 y=500
                 context.fill();
                 context.closePath();
             }
