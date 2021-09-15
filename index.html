@@ -1,15 +1,14 @@
 <HTML>
     <head>
       <style>
-
         canvas{
-	        position: absolute;
+          position: absolute;
           top: 50%;
           left: 50%;
           margin-left: -550px;
           margin-top: -100px;
         }
-        button{
+        button {
             position: absolute; 
             top: 20%;
             left:50%;   
@@ -17,6 +16,13 @@
             margin-top:100px;
             top:10px;
             font-size: 30px;
+        }
+        #nextPlayer {
+          position: absolute;
+          top: 40%;
+          width: 100%;
+          text-align: center;
+          color: white;
         }
       </style>
     </head>
@@ -26,17 +32,21 @@
                 id = "startBtn"
                 type = "button" 
                 style = "background-color: rgb(102, 167, 48)" 
-                onclick = "placeShipsPlayer1()"
+                onclick = "placeShips()"
                 >Start Game</button>
+        <button type = "button" id = "changeTurnBtn" style = "top: 60px;" onclick = "changeTurn()">End Turn</button>
+        <button type = "button" id = "confirmChangeBtn" style = "top: 60px;" onclick = "confirmChange()">Done</button>
         <canvas id="projectCanvas"
                 width="1100"
                 height="1000"
                 style="background: blue">
         </canvas>
+       
       </div>
-     
+      <h1 id = "nextPlayer">
+          Give the device to Player 0
+      </h1>
     </body>
     <script src="battleship.js">
     </script>
   </HTML>
-  
