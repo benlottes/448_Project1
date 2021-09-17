@@ -144,7 +144,9 @@ function placeShips() {
     }
   }
   document.getElementById("message").innerHTML = "Game in progress...";
-  document.getElementById("startBtn").remove(); //remove start button
+  if (document.getElementById("startBtn") != null){
+    document.getElementById("startBtn").remove(); //remove start button
+  }
   if (setup > 0) {
     turnDone = 1;
   }
@@ -288,3 +290,8 @@ function confirmChange() {
     }
   }, 100)
 }
+
+
+
+
+
