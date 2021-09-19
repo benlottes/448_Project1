@@ -1,4 +1,4 @@
-let canvas;
+https://github.com/anjaliroy19/448_Project1.gitlet canvas;
 let context;
 let player = 0;
 let row = 9;
@@ -274,13 +274,28 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelector("#nextPlayer").style.display = "none";
 })
 
-
+function rounded1(x) {return(Math.ceil((x)/40) - 1)}
 
 document.addEventListener("click", e => {
+  if (player == 0) {
+  const [i,j] = [e.x - 225,e.y - 405].map(rounded1);
+  if (i < 0 || i > 10) return;
+  if (j < 0 || j > 6) return;
+  console.log(i,j);
   console.log("mouse location:", e.clientX, e.clientY);
-  /*if (player == 0) {   		 *********NEED TO RESIZE THE BOARD SO I CAN ORGANIZE THE CLICKS
-	while(e.x > 55 && e.x < 415 && e.y >) {
-	*/   					   
+  hitBoard(0,i,j);
+  }
+
+  if(player == 1) {
+  const [i,j] = [e.x - 875,e.y - 405].map(rounded1);
+  if (i < 0 || i > 10) return;
+  if (j < 0 || j > 6) return;
+  console.log(i,j);
+  console.log("mouse location:", e.clientX, e.clientY);
+  hitBoard(0,i,j);
+  }
+ 
+
   printBoard3();
   console.log(setup);
 })
@@ -321,12 +336,82 @@ function confirmChange() {
   }, 100)
 }
 
+function hitBoard(player, x, y)  {
+  let count = 0;
+  if (player == 0) {
+	if (board4[y][x] != 0) { //player2 board4 change color
+  	context.fillStyle = 'Red';
+  	context.beginPath();
+  	context.arc(x * 40 + 710, y * 40 + 610, 20, 0, 2 * Math.PI); //**x=850 y=600
+  	context.fill();
+    
+  	let shipL = board4[y][x];
+  	board4[y][x] = 0;
+    
+  	context.fillStyle = 'Red'; //player1 board1 change color
+  	context.beginPath();
+  	context.arc(x * 40 + 60, y * 40 + 160, 20, 0, 2 * Math.PI); //***x=200 y=150
+  	context.fill();
+    
+  	for (let i = 0; i < col; i++) {
+    	for (let j = 0; j < row; j++)  {
+      if(board4[i][j] == shipL) {count++;}    	 
+    	}
+  	}
+  	if (count == 0) {
+      shipNum2--;
+      sunkShips();    
+  	}
+	}
+	else { //if miss board1 is grey
+  	context.fillStyle = 'Grey';
+  	context.beginPath();
+  	context.arc(x * 40 + 60, y * 40 + 160, 20, 0, 2 * Math.PI); //***x=200 y=150
+  	context.fill();
+	}
+  }
+
+  if (player == 1) {
+	if (board3[y][x] != 0) { //player1 board3 change color
+  	context.fillStyle = 'Red';
+  	context.beginPath();
+  	context.arc(x * 40 + 60, y * 40 + 610, 20, 0, 2 * Math.PI); //***x=200 y=600
+  	context.fill();
+    
+  	let shipL = board3[y][x];
+  	board4[y][x] = 0;
+ 	 
+  	context.fillStyle = 'Red'; //player2 board2 change color
+  	context.beginPath();
+  	context.arc(j * 40 + 710, i * 40 + 160, 20, 0, 2 * Math.PI); //***x=850 y=150
+  	context.fill();
+    
+  	for (let i = 0; i < col; i++) {
+    	for (let j = 0; j < row; j++){
+      if(board3[i][j] == shipL) {count++;}    	 
+    	}
+  	}
+  	if (count == 0) {
+      shipNum1--;
+      sunkShips();    
+  	}
+	}
+	else { //if miss board2 is grey
+  	context.fillStyle = 'Grey';
+  	context.beginPath();
+  	context.arc(x * 40 + 60, y * 40 + 610, 20, 0, 2 * Math.PI); //***x=200 y=600
+  	context.fill();
+	}
+  }
+}
+
+
 function sunkShips() {
+  context.clearRect(175, 30, 250, 80);
+  context.clearRect(700, 10, 250, 80);
   context.strokeText(numShips, 175, 30);
   context.strokeText(numShips, 825, 30);
   context.strokeText(numShips1, 170, 70);
   context.strokeText(numShips2, 820, 70);
 }
-
-
 
