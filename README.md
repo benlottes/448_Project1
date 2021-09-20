@@ -37,4 +37,8 @@ Instructions
   >
   >Using the top board, attempt to hit opponent's ship by clicking on a white space.
   >
+  >Red spaces indicate a hit and grey spaces indicate a miss.
+  >
+  >See top of screen for information on total number of ships and number of ships left.
+  >
   >Game will end once a player has sunken all their opponents ships.
