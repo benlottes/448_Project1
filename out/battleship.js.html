@@ -1,4 +1,32 @@
-let canvas;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: battleship.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: battleship.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>let canvas;
 let context;
 let player = 0;
 let row = 9;
@@ -10,24 +38,24 @@ let numShips = 0;
 let numShips1 = 0; //**
 let numShips2 = 0; //**
 let board1 = new Array(col); //top left player 1.
-for (let i = 0; i < col; i++) {
+for (let i = 0; i &lt; col; i++) {
   board1[i] = new Array(row);
 }
 let board2 = new Array(col); //top right player 2.
-for (let i = 0; i < col; i++) {
+for (let i = 0; i &lt; col; i++) {
   board2[i] = new Array(row);
 }
 let board3 = new Array(col); //bottom left player 1.
-for (let i = 0; i < col; i++) {
+for (let i = 0; i &lt; col; i++) {
   board3[i] = new Array(row);
 }
 let board4 = new Array(col); //bottom right player 2.
-for (let i = 0; i < col; i++) {
+for (let i = 0; i &lt; col; i++) {
   board4[i] = new Array(row);
 }
 
-for (let i = 0; i < col; i++) { //i is y coordinate
-  for (let j = 0; j < row; j++) { //j is x coordinate
+for (let i = 0; i &lt; col; i++) { //i is y coordinate
+  for (let j = 0; j &lt; row; j++) { //j is x coordinate
     board1[i][j] = 0; //**I set it to zero to indicate nothing is there **
     board3[i][j] = 0;
     board2[i][j] = 0;
@@ -36,7 +64,7 @@ for (let i = 0; i < col; i++) { //i is y coordinate
 }
 
 
-document.write('<h1 id = "message" style = "text-align: center"; >Welcome to Battleship! Click the start button below to begin playing.</h1>');
+document.write('&lt;h1 id = "message" style = "text-align: center"; >Welcome to Battleship! Click the start button below to begin playing.&lt;/h1>');
 
 
 function boards(p, r, c) { //Currently just has board creating
@@ -51,8 +79,8 @@ function boards(p, r, c) { //Currently just has board creating
     context.strokeText("Total number of ships: ", 710, 30);
     context.strokeText("Number of ships left: ", 710, 70);
   */
-  for (let i = 0; i < col; i++) { //i is y coordinate
-    for (let j = 0; j < row; j++) { //j is x coordinate
+  for (let i = 0; i &lt; col; i++) { //i is y coordinate
+    for (let j = 0; j &lt; row; j++) { //j is x coordinate
       if (player == 0) {
         //board 1
         context.fillStyle = 'White';
@@ -108,7 +136,7 @@ function placeShips() {
     return;
   }
   numShips = parseFloat(numShips); //convert string to float
-  while (!(Number.isInteger(numShips) && numShips <= 6 && numShips >= 1)) { //checks input
+  while (!(Number.isInteger(numShips) &amp;&amp; numShips &lt;= 6 &amp;&amp; numShips >= 1)) { //checks input
     numShips = window.prompt("Please enter an integer value between 1 and 6:");
     if (numShips == null) {
       return;
@@ -118,7 +146,7 @@ function placeShips() {
   numShips1 = numShips; //**
   numShips2 = numShips; //**
 
-  for (let i = 0; i < numShips; i++) {
+  for (let i = 0; i &lt; numShips; i++) {
     let shipLength = i;
 
     let x = prompt("What is the x coordinate of the first square for you ship?");
@@ -126,7 +154,7 @@ function placeShips() {
       return;
     }
     x = parseFloat(x); //convert string to float
-    while (!(Number.isInteger(x) && x <= 9 && x >= 1)) { //*** 1-9, checks input
+    while (!(Number.isInteger(x) &amp;&amp; x &lt;= 9 &amp;&amp; x >= 1)) { //*** 1-9, checks input
       x = window.prompt("Please enter an integer value between 1 and 9:"); //***
       if (x == null) {
         return;
@@ -139,7 +167,7 @@ function placeShips() {
       return;
     }
     y = parseFloat(y); //convert string to float
-    while (!(Number.isInteger(y) && y <= 10 && y >= 1)) { //*** 1-10, checks input
+    while (!(Number.isInteger(y) &amp;&amp; y &lt;= 10 &amp;&amp; y >= 1)) { //*** 1-10, checks input
       y = window.prompt("Please enter an integer value between 1 and 10:"); //***
       if (y == null) {
         return;
@@ -152,7 +180,7 @@ function placeShips() {
     if (orientation == null) { //cancel option
       return;
     }
-    while (orientation != 'u' && orientation != 'd' && orientation != 'r' && orientation != 'l') { //checks input
+    while (orientation != 'u' &amp;&amp; orientation != 'd' &amp;&amp; orientation != 'r' &amp;&amp; orientation != 'l') { //checks input
       orientation = window.prompt("Please enter a direction (u, d, r, l):");
       if (orientation == null) { //cancel option
         return;
@@ -162,14 +190,14 @@ function placeShips() {
     let valid = true;
     let testX = x;
     let testY = y;
-    for (let j = 0; j < shipLength + 1; j++) { //making sure placement is valid
-      if (testX < 1 || testY < 1 || testX > 9 || testY > 10) { //*** changed to 1-9 & 1-10
+    for (let j = 0; j &lt; shipLength + 1; j++) { //making sure placement is valid
+      if (testX &lt; 1 || testY &lt; 1 || testX > 9 || testY > 10) { //*** changed to 1-9 &amp; 1-10
         valid = false;
         console.log('not valid');
         i -= 1;
         break;
       }
-      if ((board3[testY - 1][testX - 1] != 0 && player == 0) || (board4[testY - 1][testX - 1] != 0 && player == 1)) { //**** Big Change
+      if ((board3[testY - 1][testX - 1] != 0 &amp;&amp; player == 0) || (board4[testY - 1][testX - 1] != 0 &amp;&amp; player == 1)) { //**** Big Change
         valid = false;
         console.log('not valid');
         i -= 1;
@@ -186,7 +214,7 @@ function placeShips() {
       }
     }
     if (valid == true) {
-      for (let j = 0; j < shipLength + 1; j++) {
+      for (let j = 0; j &lt; shipLength + 1; j++) {
         if (player == 0) {
           board3[y - 1][x - 1] = shipLength + 1;  //***shipLength, indicates ship at i,j need to change to shiplength
         } else {
@@ -226,8 +254,8 @@ function placeShips() {
  */
 function updateLowerBoards() {
   if (player == 0) {
-    for (let i = 0; i < col; i++) { //i is y coordinate
-      for (let j = 0; j < row; j++) {
+    for (let i = 0; i &lt; col; i++) { //i is y coordinate
+      for (let j = 0; j &lt; row; j++) {
         if (board3[i][j] == 0) { //*checks if # 0
           context.fillStyle = 'White';
           context.beginPath();
@@ -245,8 +273,8 @@ function updateLowerBoards() {
       }
     }
   } else {
-    for (let i = 0; i < col; i++) { //i is y coordinate
-      for (let j = 0; j < row; j++) {
+    for (let i = 0; i &lt; col; i++) { //i is y coordinate
+      for (let j = 0; j &lt; row; j++) {
         if (board4[i][j] == 0) { //*checks if # 0
           context.fillStyle = 'White';
           context.beginPath();
@@ -290,8 +318,8 @@ function rounded1(x) { return (Math.ceil((x) / 40) - 1) }
 document.addEventListener("click", e => {
   if (player == 0) {
     const [i, j] = [e.x - 215, e.y - 405].map(rounded1);
-    if (i < 0 || i > 10) return; //**9
-    if (j < 0 || j > 9) return; //**8
+    if (i &lt; 0 || i > 10) return; //**9
+    if (j &lt; 0 || j > 9) return; //**8
     console.log(i, j);
     console.log("mouse location:", e.clientX, e.clientY);
     hitBoard(0, i, j);
@@ -299,8 +327,8 @@ document.addEventListener("click", e => {
 
   if (player == 1) {
     const [i, j] = [e.x - 865, e.y - 405].map(rounded1);
-    if (i < 0 || i > 10) return;//**9
-    if (j < 0 || j > 9) return;//**8
+    if (i &lt; 0 || i > 10) return;//**9
+    if (j &lt; 0 || j > 9) return;//**8
     console.log(i, j);
     console.log("mouse location:", e.clientX, e.clientY);
     hitBoard(0, i, j);
@@ -364,8 +392,8 @@ function hitBoard(player, x, y) {
       context.arc(x * 40 + 60, y * 40 + 160, 20, 0, 2 * Math.PI); //***x=200 y=150
       context.fill();
 
-      for (let i = 0; i < col; i++) {
-        for (let j = 0; j < row; j++) {
+      for (let i = 0; i &lt; col; i++) {
+        for (let j = 0; j &lt; row; j++) {
           if (board4[i][j] == shipL) { count++; }
         }
       }
@@ -397,8 +425,8 @@ function hitBoard(player, x, y) {
       context.arc(j * 40 + 710, i * 40 + 160, 20, 0, 2 * Math.PI); //***x=850 y=150
       context.fill();
 
-      for (let i = 0; i < col; i++) {
-        for (let j = 0; j < row; j++) {
+      for (let i = 0; i &lt; col; i++) {
+        for (let j = 0; j &lt; row; j++) {
           if (board3[i][j] == shipL) { count++; }
         }
       }
@@ -432,3 +460,26 @@ function sunkShips() {
   context.strokeText(numShips1, 170, 70);
   context.strokeText(numShips2, 820, 70);
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#placeShips">placeShips</a></li><li><a href="global.html#printBoard3">printBoard3</a></li><li><a href="global.html#updateLowerBoards">updateLowerBoards</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Sun Sep 19 2021 20:01:13 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
