@@ -16,7 +16,9 @@ Board Setup:
   >Bottom Board: Displays your own ships
 Instructions
   >Click 'Start Game'
+  **
   >Enter the preferred number of ships (1-6)
+  **
   >Player1: enter the x and y coordinates of ship locations
   >Switch to Player2's screen (Click the 'End Turn' button to switch between player's screens and confirm using the 'Done' button)
   >Player2: enter the x and y coordinate of ship locations and end turn
