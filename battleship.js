@@ -41,16 +41,6 @@ document.write('<h1 id = "message" style = "text-align: center"; >Welcome to Bat
 
 function boards(p, r, c) { //Currently just has board creating
   let yRange = 'ABCDEFGHIJ';
-  context.fillStyle = 'White';
-  /*  context.fillRect(50, 10, 250, 80);
-    context.strokeText("Total number of ships: ", 60, 30);
-    context.strokeText("Number of ships left: ", 60, 70);
-     
-    context.fillStyle = 'White';
-    context.fillRect(700, 10, 250, 80);
-    context.strokeText("Total number of ships: ", 710, 30);
-    context.strokeText("Number of ships left: ", 710, 70);
-  */
   for (let i = 0; i < col; i++) { //i is y coordinate
     for (let j = 0; j < row; j++) { //j is x coordinate
       if (player == 0) {
@@ -97,9 +87,6 @@ function boards(p, r, c) { //Currently just has board creating
 }
 
 
-/**Pre - None
- * Post - None
- */
 function placeShips() {
   if (numShips == 0) {
     numShips = prompt("How many ships do you want? (1-6)");
@@ -210,7 +197,6 @@ function placeShips() {
     }
   }
   document.getElementById("message").innerHTML = "Game in progress...";
-  document.getElementById("startBtn").remove(); //remove start button
   if (document.getElementById("startBtn") != null) {
     document.getElementById("startBtn").remove(); //remove start button
   }
@@ -218,12 +204,9 @@ function placeShips() {
     turnDone = 1;
   }
   setup--;
+  //changeTurn();
 }
 
-
-/**Pre - None
- * Post - None
- */
 function updateLowerBoards() {
   if (player == 0) {
     for (let i = 0; i < col; i++) { //i is y coordinate
@@ -244,7 +227,8 @@ function updateLowerBoards() {
         }
       }
     }
-  } else {
+  }
+  if (player == 1) {
     for (let i = 0; i < col; i++) { //i is y coordinate
       for (let j = 0; j < row; j++) {
         if (board4[i][j] == 0) { //*checks if # 0
@@ -266,12 +250,11 @@ function updateLowerBoards() {
   }
 }
 
-/**Pre - None
- * Post - None
- */
 function printBoard3() {
   console.log(board3);
 }
+
+
 
 document.addEventListener("DOMContentLoaded", () => {
   canvas = document.querySelector("#projectCanvas");
@@ -289,8 +272,8 @@ function rounded1(x) { return (Math.ceil((x) / 40) - 1) }
 
 document.addEventListener("click", e => {
   if (player == 0) {
-    const [i, j] = [e.x - 215, e.y - 405].map(rounded1);
-    if (i < 0 || i > 10) return; //**9
+    const [i, j] = [e.x - 40, e.y - 140].map(rounded1);
+    if (i < 0 || i > 8) return; //**9
     if (j < 0 || j > 9) return; //**8
     console.log(i, j);
     console.log("mouse location:", e.clientX, e.clientY);
@@ -298,15 +281,14 @@ document.addEventListener("click", e => {
   }
 
   if (player == 1) {
-    const [i, j] = [e.x - 865, e.y - 405].map(rounded1);
-    if (i < 0 || i > 10) return;//**9
+    const [i, j] = [e.x - 690, e.y - 140].map(rounded1);
+    if (i < 0 || i > 8) return;//**9
     if (j < 0 || j > 9) return;//**8
     console.log(i, j);
     console.log("mouse location:", e.clientX, e.clientY);
-    hitBoard(0, i, j);
+    hitBoard(1, i, j);
   }
-
-
+  turnDone = 1;
   printBoard3();
   console.log(setup);
 })
@@ -318,6 +300,7 @@ function changeTurn() {
     } else {
       player = 0;
     }
+    console.log(player);
     swapping = 1;
     document.querySelector("#changeTurnBtn").style.display = "none";
     document.querySelector("#confirmChangeBtn").style.display = "initial";
@@ -326,6 +309,7 @@ function changeTurn() {
     document.querySelector("#nextPlayer").innerText = "Give the device to Player " + player;
     document.querySelector("#nextPlayer").innerText = "Give the device to Player " + (player + 1);
     context.clearRect(0, 0, canvas.width, canvas.height);
+    //confirmChange();
   }
 }
 
@@ -337,6 +321,7 @@ function confirmChange() {
   canvas.style.display = "initial";
   context.clearRect(0, 0, canvas.width, canvas.height);
   boards();
+  updateLowerBoards();
   document.querySelector("#nextPlayer").innerText = "Give the device to Player " + (player + 1);
   document.querySelector("#nextPlayer").style.display = "none";
   setTimeout(function () {
@@ -348,8 +333,9 @@ function confirmChange() {
 }
 
 function hitBoard(player, x, y) {
+  click = 0;
   let count = 0;
-  if (player == 0) {
+  if (player == 0 && turnDone == 0) {
     if (board4[y][x] != 0) { //player2 board4 change color
       context.fillStyle = 'Red';
       context.beginPath();
@@ -373,16 +359,17 @@ function hitBoard(player, x, y) {
         numShips2--;
         sunkShips();
       }
+      else { //if miss board1 is grey
+        context.fillStyle = 'Grey';
+        context.beginPath();
+        context.arc(x * 40 + 60, y * 40 + 160, 20, 0, 2 * Math.PI); //***x=200 y=150
+        context.fill();
+      }
     }
-    else { //if miss board1 is grey
-      context.fillStyle = 'Grey';
-      context.beginPath();
-      context.arc(x * 40 + 60, y * 40 + 160, 20, 0, 2 * Math.PI); //***x=200 y=150
-      context.fill();
-    }
-  }
+    turnDone = 1;
 
-  if (player == 1) {
+  }
+  if (player == 1 && turnDone == 0) {
     if (board3[y][x] != 0) { //player1 board3 change color
       context.fillStyle = 'Red';
       context.beginPath();
@@ -394,7 +381,7 @@ function hitBoard(player, x, y) {
 
       context.fillStyle = 'Red'; //player2 board2 change color
       context.beginPath();
-      context.arc(j * 40 + 710, i * 40 + 160, 20, 0, 2 * Math.PI); //***x=850 y=150
+      context.arc(x * 40 + 710, y * 40 + 160, 20, 0, 2 * Math.PI); //***x=850 y=150
       context.fill();
 
       for (let i = 0; i < col; i++) {
@@ -410,11 +397,16 @@ function hitBoard(player, x, y) {
     else { //if miss board2 is grey
       context.fillStyle = 'Grey';
       context.beginPath();
-      context.arc(x * 40 + 60, y * 40 + 610, 20, 0, 2 * Math.PI); //***x=200 y=600
+      context.arc(x * 40 + 710, y * 40 + 160, 20, 0, 2 * Math.PI); //***x=850 y=150
       context.fill();
     }
   }
-  setTurnDone = 1;
+  console.log(player);
+  if (click > 0) {
+    turnDone = 1;
+    changeTurn();
+    return;
+  }
 }
 
 function sunkShips() {
@@ -422,8 +414,6 @@ function sunkShips() {
   context.fillRect(50, 10, 250, 80);
   context.strokeText("Total number of ships: ", 60, 30);
   context.strokeText("Number of ships left: ", 60, 70);
-
-  context.fillStyle = 'White';
   context.fillRect(700, 10, 250, 80);
   context.strokeText("Total number of ships: ", 710, 30);
   context.strokeText("Number of ships left: ", 710, 70);
@@ -432,3 +422,4 @@ function sunkShips() {
   context.strokeText(numShips1, 170, 70);
   context.strokeText(numShips2, 820, 70);
 }
+
