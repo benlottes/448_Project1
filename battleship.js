@@ -10,7 +10,6 @@ let numShips = 0;
 let numShips1 = 0; //**
 let numShips2 = 0; //**
 let board1 = new Array(col); //top left player 1.
-let shipsPlaced = false; // true when all ships have been placed. helper bool for hardShot
 
 for (let i = 0; i < col; i++) {
   board1[i] = new Array(row);
@@ -204,7 +203,6 @@ function placeShips() {
     }
   }
   document.getElementById("message").innerHTML = "Game in progress...";
-  shipsPlaced = true;
   
   if (document.getElementById("startBtn") != null) {
     document.getElementById("startBtn").remove(); //remove start button
@@ -393,8 +391,8 @@ function confirmChange() {
     }
   }, 100)
   if(setup == 0){
-	  console.log("ahahahha");
-	  turnCount++
+	  storePlayerShips();
+	  turnCount++;
 	  if(player == 0 && turnCount == p1Power){
 		  	  console.log(p1PowerDir);
 		  while(p1PowerDir != "row" && p1PowerDir != "column"){

@@ -8,12 +8,12 @@ let p2PowerDir = "";
 let userShips = []
 
 // helper function for hardShot
-if(shipsPlaced){
-	for(let rows = 0; rows < 9; rows++){
-		for(let cols = 0; cols < 10; cols++){
-			if(board3[rows][cols] != 0){
+function storePlayerShips(){
+	for(let r = 0; r < col; r++){
+		for(let c = 0; c < row; c++){
+			if(board3[r][c] != 0){
 				// store location of each "ship circle" in userShips
-				userShips.push([rows, cols]); 
+				userShips.push([r, c]); 
 			}
 		}
 	}
@@ -37,7 +37,8 @@ function mediumShot(){
 that updates(starting with 0) with each hit (everytime hardshot is called). This 
 is how the function keeps track of which location in userShips to hit next */
 function hardShot(hitCounter){
-	hitboard(player, shipsPlaced[hitCounter][1], shipsPlaced[hitCounter][0]);
+	let [r,c] = userShips.pop();
+	hitboard(0, r, c);
 }
 
 function orthoShot(player, c, r){
@@ -66,9 +67,9 @@ function orthoShot(player, c, r){
 
 function calculateRandomTurn(numShips){
 	do{
-		p1Power = Math.floor(Math.random() * (numShips*2-1)+1);
+		p1Power = Math.floor(Math.random() * (numShips*2)+1);
 	}while(p1Power % 2 == 0);
 	do{
-		p2Power = Math.floor(Math.random() * (numShips*2-1)+1);
+		p2Power = Math.floor(Math.random() * (numShips*2)+1);
 	}while(p2Power % 2 != 0);
 }
