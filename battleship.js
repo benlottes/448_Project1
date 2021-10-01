@@ -105,6 +105,8 @@ function placeShips() {
     }
     numShips = parseFloat(numShips);
   }
+  calculateRandomTurn(numShips);
+  
   numShips1 = numShips; //**
   numShips2 = numShips; //**
 
@@ -315,7 +317,11 @@ document.addEventListener("click", e => {
     if (j < 0 || j > 9) return; //**8
     console.log(i, j);
     console.log("mouse location:", e.clientX, e.clientY);
-    hitBoard(0, i, j);
+	if(p1Power != turnCount){
+		hitBoard(0, i, j);
+	}else{
+		orthoShot(0, i, j);
+	}
   }
 
   if (player == 1) {
@@ -324,7 +330,11 @@ document.addEventListener("click", e => {
     if (j < 0 || j > 9) return;//**8
     console.log(i, j);
     console.log("mouse location:", e.clientX, e.clientY);
-    hitBoard(1, i, j);
+	if(p2Power != turnCount){
+		hitBoard(1, i, j);
+	}else{
+		orthoShot(1, i, j);
+	}
   }
   turnDone = 1;
   console.log(setup);
@@ -352,6 +362,7 @@ function changeTurn() {
     document.querySelector("#nextPlayer").innerText = "Give the device to Player " + (player + 1);
     context.clearRect(0, 0, canvas.width, canvas.height);
     //confirmChange();
+	
   }
 }
 
@@ -377,6 +388,21 @@ function confirmChange() {
       console.log(setup);
     }
   }, 100)
+  if(setup == 0){
+	  console.log("ahahahha");
+	  turnCount++
+	  if(player == 0 && turnCount == p1Power){
+		  	  console.log(p1PowerDir);
+		  while(p1PowerDir != "row" && p1PowerDir != "column"){
+			  p1PowerDir = window.prompt("You got your power shot! Please input either 'row' or 'column' for your shot.", "");
+			  console.log(p1PowerDir);
+		  }
+	  } else if (player == 1 && turnCount == p2Power){
+		  while(p2PowerDir != 'row' && p2PowerDir != 'column'){
+			  p2PowerDir = prompt("You got your power shot! Please input either 'row' or 'column' for your shot. Then select a cell.", "");
+		  }
+	  }
+	}
 }
 
 //hit or miss 
@@ -424,7 +450,6 @@ function hitBoard(player, x, y) {
       context.arc(x * 40 + 60, y * 40 + 160, 20, 0, 2 * Math.PI); //***x=200 y=150
       context.fill();
     }
-    turnDone = 1;
   }
   if (player == 1 && turnDone == 0) {
     if (board3[y][x] != 0 && board3[y][x] != 7) { //player1 board3 change color
@@ -455,7 +480,6 @@ function hitBoard(player, x, y) {
         }
         sunkShips();
       }
-      turnDone = 1;
     }
     else { //if miss board2 is grey
       board2[y][x] = 1;
@@ -468,7 +492,8 @@ function hitBoard(player, x, y) {
   sunkShips();
   console.log(player);
   if (click > 0) {
-    turnDone = 1;
+	console.log("IT DID SOMETHING");
+	currentTurn++;
     changeTurn();
     return;
   }
