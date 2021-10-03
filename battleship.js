@@ -106,6 +106,21 @@ function placeShips() {
     }
     numShips = parseFloat(numShips);
   }
+  if(setup == 2){
+	  let numPlayers;
+	  while(numPlayers != '1' && numPlayers != '2'){
+		  numPlayers = window.prompt("How many players, '1' or '2'?");
+	  }
+	  if(numPlayers == '1'){
+		  while(difficulty != 'easy' && difficulty != 'medium' && difficulty != 'hard'){
+			difficulty = window.prompt("What difficulty, 'easy' 'medium' or 'hard'?");
+		  }
+		  aiSelect = true;
+	  }else {
+		  aiSelect = false;
+	  }
+  }
+  
   calculateRandomTurn(numShips);
   
   numShips1 = numShips; //**
@@ -211,6 +226,7 @@ function placeShips() {
     turnDone = 1;
   }
   setup--;
+  storePlayerShips();
   //changeTurn();
 }
 
@@ -384,27 +400,32 @@ function confirmChange() {
   updateLowerBoards();
   document.querySelector("#nextPlayer").innerText = "Give the device to Player " + (player + 1);
   document.querySelector("#nextPlayer").style.display = "none";
-  setTimeout(function () {
-    if (setup > 0) {
-      placeShips();
-      console.log(setup);
-    }
-  }, 100)
+
   if(setup == 0){
-	  storePlayerShips();
-	  turnCount++;
+	  turnCount++
+	  if(aiSelect == true && turnCount % 2 == 0){
+	    aiTurn();
+	  }
+
 	  if(player == 0 && turnCount == p1Power){
 		  	  console.log(p1PowerDir);
 		  while(p1PowerDir != "row" && p1PowerDir != "column"){
 			  p1PowerDir = window.prompt("You got your power shot! Please input either 'row' or 'column' for your shot.", "");
 			  console.log(p1PowerDir);
 		  }
-	  } else if (player == 1 && turnCount == p2Power){
+	  } else if (player == 1 && turnCount == p2Power && aiSelect == false){
 		  while(p2PowerDir != 'row' && p2PowerDir != 'column'){
 			  p2PowerDir = prompt("You got your power shot! Please input either 'row' or 'column' for your shot. Then select a cell.", "");
 		  }
 	  }
 	}
+  if(aiSelect == false){
+	if (setup > 0) {
+	  placeShips();
+	}
+  }else if(setup == 1){
+	  aiPlaceShips(numShips);
+  }
 }
 
 //hit or miss 
