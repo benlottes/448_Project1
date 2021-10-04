@@ -496,7 +496,7 @@ function hitBoard(player, x, y) {
         }
       }
       if (count == 0) {
-        numShips1--; //
+        numShips1--; 
         if (numShips1 == 0) {
           window.alert("Game over: Player2 is the winner!");
           location.reload();
