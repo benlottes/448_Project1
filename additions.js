@@ -8,6 +8,12 @@ let p2PowerDir = "";
 let userShips = []
 let aiSelect;
 let difficulty; // 'easy' 'medium' or 'hard'
+let AiRow=1;
+let AiCol=1;
+let tcol;
+let trow;
+let hits=0;
+let shipNum;
 
 function aiPlaceShips(numShips){
 	let oriOptions = ['u','d','l','r'];
@@ -86,8 +92,125 @@ function easyShot(){
 
 function mediumShot(){
 	//use hitBoard() after calculating index
-	console.log('medium shot');
+	
+	if(hits==0){
+		var x = Math.floor(Math.random()* (8) + 1);//col
+		var y = Math.floor(Math.random()* (9) + 1);//row
+		hitBoard(1 ,x, y);
+		console.log("hi"+x+y);
+		if(board3[y][x]==7)//add board Number
+		{
+			hits++;
+			AiCol=x;
+			AiRow=y;
+		}
+	}
+	else
+	{		
+		shipNum=board3[AiRow][AiCol];//add board Number
+		trow=AiRow; 
+		tcol=AiCol;
+		console.log("hi in ortho shot"+trow+tcol);
+		while(true){
+		if(trow-1>0&&tcol<10&&board3[trow-1][tcol]!=7  )//check up 
+		{
+			if (board3[trow-1][tcol]==shipNum)
+			{
+				trow=trow-1;
+				tcol=tcol;
+				hitBoard(player,tcol,trow);
+			}
+			else 
+			{
+				hitBoard(player,tcol-1,trow);
+			}
+			break;
+		}
+		else if(trow<9&&tcol+1<10&&board3[trow][tcol+1]!=7 )//check right
+		{
+			if (board3[trow][tcol+1]==shipNum)
+			{
+				trow=trow;
+				tcol=tcol+1;
+				hitBoard(player,tcol,trow+1);
+			}
+			else 
+			{
+				hitBoard(player,tcol,trow+1);
+			}
+			break;
+		}
+		else if(trow+1<9&&tcol<10&&board3[trow+1][tcol]!=7)//check down
+		{
+			if (board[trow+1][tcol]==shipNum)
+			{
+				trow=trow+1;
+				tcol=tcol;
+				hitBoard(player,tcol+1,trow);
+			}
+			else 
+			{
+				hitBoard(player,tcol+1,trow);
+			}
+			break;
+		}
+		else if(trow<10&&tcol-1<10&&board3[trow][tcol-1]!=7)//check left
+		{
+			if (board3[trow][tcol-1]==shipNum)
+			{
+				trow=trow;
+				tcol=tcol-1;
+				hitBoard(player,tcol,trow-1);
+			}
+			else 
+			{
+				hitBoard(player,tcol,trow-1);
+			}
+			break;
+		}
+		else
+		{
+			trow=AiRow;
+			tcol=AiCol;
+			continue;
+		}
+		}
+	}
 }
+
+
+/* when hardshot is called in the main game, might have to pass in some variable 
+that updates(starting with 0) with each hit (everytime hardshot is called). This 
+is how the function keeps track of which location in userShips to hit next */
+function hardShot(hitCounter){
+	let [r,c] = userShips.pop();
+	hitboard(0, r, c);
+}
+
+function orthoShot(player, c, r){
+	if(player == 0){
+		if(p1PowerDir == 'row'){
+			for(let i = 0; i < row; i++){
+				hitBoard(player, i, r)
+			}
+		}else{
+			for(let i = 0; i < col; i++){
+				hitBoard(player, c, i)
+			}
+		}
+	}else{
+		if(p2PowerDir == 'row'){
+			for(let i = 0; i < row; i++){
+				hitBoard(player, i, r)
+			}
+		}else{
+			for(let i = 0; i < col; i++){
+				hitBoard(player, c, i)
+			}
+		}
+	}
+}
+
 
 /* when hardshot is called in the main game, might have to pass in some variable 
 that updates(starting with 0) with each hit (everytime hardshot is called). This 
