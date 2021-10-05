@@ -71,19 +71,15 @@ function aiPlaceShips(numShips){
 
 // helper function for hardShot
 function storePlayerShips(){
+	userShips.length = 0;
 	for(let r = 0; r < col; r++){
 		for(let c = 0; c < row; c++){
-			if(board3[r][c] != 0){
+			if(board3[r][c] != 0 && board3[r][c] != 7){
 				// store location of each "ship circle" in userShips
 				userShips.push([c, r]); 
 			}
 		}
 	}
-}
-
-//returns true if the index is < 7
-function isValid(row, col, board){
-	
 }
 
 function easyShot(){
@@ -217,7 +213,19 @@ that updates(starting with 0) with each hit (everytime hardshot is called). This
 is how the function keeps track of which location in userShips to hit next */
 function hardShot(){
 	let [x,y] = userShips.pop();
-	hitBoard(1, x, y);
+	if(p2Power == turnCount){
+		dir = Math.floor(Math.random() * 2);
+		if(dir == 1){
+			p2PowerDir = 'row'
+		}else{
+			p2PowerDir = 'column'
+		}
+		console.log("shooting otho shot");
+		orthoShot(1, x, y);
+		storePlayerShips();
+	}else{
+		hitBoard(1, x, y);
+	}
 }
 
 function orthoShot(player, c, r){

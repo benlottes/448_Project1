@@ -503,6 +503,7 @@ function hitBoard(player, x, y) {
           location.reload();
         }
         sunkShips();
+		
       }
     }
     else { //if miss board2 is grey
