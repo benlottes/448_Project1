@@ -92,84 +92,103 @@ function mediumShot(){
 	if(hits==0){
 		var x = Math.floor(Math.random()* (8) + 1);//col
 		var y = Math.floor(Math.random()* (9) + 1);//row
+		shipNum=board3[y][x];//add board Number
 		hitBoard(1 ,x, y);
-		console.log("hi"+x+y);
+		console.log("hi"+y+x);
 		if(board3[y][x]==7)//add board Number
 		{
 			hits++;
 			AiCol=x;
 			AiRow=y;
+			trow=AiRow; 
+			tcol=AiCol;
 		}
 	}
 	else
 	{		
-		shipNum=board3[AiRow][AiCol];//add board Number
-		trow=AiRow; 
-		tcol=AiCol;
 		console.log("hi in ortho shot"+trow+tcol);
 		while(true){
-		if(trow-1>0&&tcol<10&&board3[trow-1][tcol]!=7  )//check up 
-		{
-			if (board3[trow-1][tcol]==shipNum)
+			if(trow-1>=0&&tcol<9&&board2[trow-1][tcol] == 0)//check up 
 			{
-				trow=trow-1;
-				tcol=tcol;
-				hitBoard(player,tcol,trow);
+				if (board3[trow-1][tcol]==shipNum)
+				{
+					trow=trow-1;
+					tcol=tcol;
+					hitBoard(player,tcol,trow);
+					console.log("hi in ortho shot row-1 "+trow+tcol);
+				}
+				else 
+				{
+					hitBoard(player,tcol,trow-1);
+					console.log("hi in ortho shot row-1 "+trow-1+tcol);
+
+				}
+				break;
 			}
-			else 
+			else if(trow<10&&tcol+1<9&&board2[trow][tcol+1] == 0)//check right
 			{
-				hitBoard(player,tcol-1,trow);
+				if (board3[trow][tcol+1]==shipNum)
+				{
+					trow=trow;
+					tcol=tcol+1;
+					hitBoard(player,tcol,trow);
+					console.log("hi in ortho shot col+1 "+trow+tcol);
+				}
+				else 
+				{
+					hitBoard(player,tcol+1,trow);
+					console.log("hi in ortho shot row-1 "+trow+tcol+1);
+				}
+				break;
 			}
-			break;
-		}
-		else if(trow<9&&tcol+1<10&&board3[trow][tcol+1]!=7 )//check right
-		{
-			if (board3[trow][tcol+1]==shipNum)
+			else if(trow+1<10&&tcol<9&&board2[trow+1][tcol] == 0)//check down
 			{
-				trow=trow;
-				tcol=tcol+1;
-				hitBoard(player,tcol,trow+1);
+				if (board3[trow+1][tcol]==shipNum)
+				{
+					trow=trow+1;
+					tcol=tcol;
+					hitBoard(player,tcol,trow);
+					console.log("hi in ortho shot row+1 "+trow+tcol);
+				}
+				else 
+				{
+					hitBoard(player,tcol,trow+1);
+					console.log("hi in ortho shot row-1 "+trow+1+tcol);
+				}
+				break;
 			}
-			else 
+			else if(trow<10&&tcol-1<9&&board2[trow][tcol-1] == 0)//check left
 			{
-				hitBoard(player,tcol,trow+1);
+				if (board3[trow][tcol-1]==shipNum)
+				{
+					trow=trow;
+					tcol=tcol-1;
+					hitBoard(player,tcol,trow);
+					console.log("hi in ortho shot col-1 "+trow+tcol);
+				}
+				else 
+				{
+					hitBoard(player,tcol-1,trow);
+					console.log("hi in ortho shot row-1 "+trow+tcol-1);
+				}
+				break;
 			}
-			break;
-		}
-		else if(trow+1<9&&tcol<10&&board3[trow+1][tcol]!=7)//check down
-		{
-			if (board[trow+1][tcol]==shipNum)
+			else
 			{
-				trow=trow+1;
-				tcol=tcol;
-				hitBoard(player,tcol+1,trow);
+				trow=AiRow;
+				tcol=AiCol;
+				continue;
 			}
-			else 
-			{
-				hitBoard(player,tcol+1,trow);
+			let s = true;
+			for(let r = 0; r < col; r++){
+				for(let c = 0; c < row; c++){
+					if(board3[r][c] == shipNum){
+						s = false;//this is supposed to set hits to zer o if the ship is sunk, but i dont think it works
+					}
+				}
 			}
-			break;
-		}
-		else if(trow<10&&tcol-1<10&&board3[trow][tcol-1]!=7)//check left
-		{
-			if (board3[trow][tcol-1]==shipNum)
-			{
-				trow=trow;
-				tcol=tcol-1;
-				hitBoard(player,tcol,trow-1);
-			}
-			else 
-			{
-				hitBoard(player,tcol,trow-1);
-			}
-			break;
-		}
-		else
-		{
-			trow=AiRow;
-			tcol=AiCol;
-			continue;
-		}
+			if(!s)
+				hits = 0;
 		}
 	}
 }
