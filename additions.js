@@ -86,25 +86,57 @@ function easyShot(){
 	//use hitBoard() after calculating index
 	var x = Math.floor(Math.random()* (8) + 1);//col
 	var y = Math.floor(Math.random()* (9) + 1);//row
-	hitBoard(1 ,x, y);
+	
+	if(p2Power == turnCount){
+		dir = Math.floor(Math.random() * 2);
+		if(dir == 1){
+			p2PowerDir = 'row'
+		}else{
+			p2PowerDir = 'column'
+		}
+		console.log("shooting otho shot");
+		orthoShot(1, x, y);
+		storePlayerShips();
+	}else{
+		hitBoard(1, x, y);
+	}
 }
 
 function mediumShot(){
 	//use hitBoard() after calculating index
 	
 	if(hits==0){
-		var x = Math.floor(Math.random()* (8) + 1);//col
-		var y = Math.floor(Math.random()* (9) + 1);//row
-		shipNum=board3[y][x];//add board Number
-		hitBoard(1 ,x, y);
-		console.log("hi"+y+x);
-		if(board3[y][x]==7)//add board Number
-		{
-			hits++;
-			AiCol=x;
-			AiRow=y;
-			trow=AiRow; 
-			tcol=AiCol;
+		while(true){
+			var x = Math.floor(Math.random()* (8));//col
+			var y = Math.floor(Math.random()* (9));//row
+			
+			if(board2[y][x] == 0){
+				break;
+			}
+		}
+		if(p2Power <= turnCount){
+			dir = Math.floor(Math.random() * 2);
+			if(dir == 1){
+				p2PowerDir = 'row'
+			}else{
+				p2PowerDir = 'column'
+			}
+			console.log("shooting otho shot");
+			orthoShot(1, x, y);
+			storePlayerShips();
+			p2Power = 1000000; //disable powershot
+		}else{
+			shipNum=board3[y][x];//add board Number
+			hitBoard(1 ,x, y);
+			console.log("hi"+y+x);
+			if(board3[y][x]==7)//add board Number
+			{
+				hits++;
+				AiCol=x;
+				AiRow=y;
+				trow=AiRow; 
+				tcol=AiCol;
+			}		
 		}
 	}
 	else
@@ -182,53 +214,20 @@ function mediumShot(){
 				tcol=AiCol;
 				continue;
 			}
-			let s = true;
-			for(let r = 0; r < col; r++){
-				for(let c = 0; c < row; c++){
-					if(board3[r][c] == shipNum){
-						s = false;//this is supposed to set hits to zer o if the ship is sunk, but i dont think it works
-					}
+		}
+		let s = true;
+		for(let r = 0; r < col; r++){
+			for(let c = 0; c < row; c++){
+				if(board3[r][c] == shipNum){
+					s = false;//this is supposed to set hits to zer o if the ship is sunk, but i dont think it works
 				}
 			}
-			if(!s)
-				hits = 0;
+		}
+		if(s){
+			hits = 0;
 		}
 	}
 }
-
-
-/* when hardshot is called in the main game, might have to pass in some variable 
-that updates(starting with 0) with each hit (everytime hardshot is called). This 
-is how the function keeps track of which location in userShips to hit next */
-function hardShot(hitCounter){
-	let [r,c] = userShips.pop();
-	hitboard(0, r, c);
-}
-
-function orthoShot(player, c, r){
-	if(player == 0){
-		if(p1PowerDir == 'row'){
-			for(let i = 0; i < row; i++){
-				hitBoard(player, i, r)
-			}
-		}else{
-			for(let i = 0; i < col; i++){
-				hitBoard(player, c, i)
-			}
-		}
-	}else{
-		if(p2PowerDir == 'row'){
-			for(let i = 0; i < row; i++){
-				hitBoard(player, i, r)
-			}
-		}else{
-			for(let i = 0; i < col; i++){
-				hitBoard(player, c, i)
-			}
-		}
-	}
-}
-
 
 /* when hardshot is called in the main game, might have to pass in some variable 
 that updates(starting with 0) with each hit (everytime hardshot is called). This 
