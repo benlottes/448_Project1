@@ -173,13 +173,11 @@ function placeShips() {
     for (let j = 0; j < shipLength + 1; j++) { //making sure placement is valid
       if (testX < 1 || testY < 1 || testX > 9 || testY > 10) { //*** changed to 1-9 & 1-10
         valid = false;
-        console.log('not valid');
         i -= 1;
         break;
       }
       if ((board3[testY - 1][testX - 1] != 0 && player == 0) || (board4[testY - 1][testX - 1] != 0 && player == 1)) { //**** Big Change
         valid = false;
-        console.log('not valid');
         i -= 1;
         break;
       }
@@ -200,7 +198,6 @@ function placeShips() {
         } else {
           board4[y - 1][x - 1] = shipLength + 1;  //***Test, indicates ship at i,j need to change to shiplength
         }
-        console.log(x - 1, y - 1) // actual array position
         if (orientation == 'u') {
           y--;
         } else if (orientation == 'd') {
@@ -320,9 +317,7 @@ function updateLowerBoards() {
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("changeTurnBtn").disabled = true; //disable end turn button
   canvas = document.querySelector("#projectCanvas");
-  console.log("Got here");
   context = canvas.getContext("2d");
-  //console.log(context);
   boards();
   document.querySelector("#confirmChangeBtn").style.display = "none";
   document.querySelector("#nextPlayer").style.display = "none";
@@ -336,8 +331,6 @@ document.addEventListener("click", e => {
     const [i, j] = [e.x - 40, e.y - 140].map(rounded1);
     if (i < 0 || i > 8) return; //**9
     if (j < 0 || j > 9) return; //**8
-    console.log(i, j);
-    console.log("mouse location:", e.clientX, e.clientY);
 	if(p1Power != turnCount){
 		hitBoard(0, i, j);
 	}else{
@@ -349,8 +342,6 @@ document.addEventListener("click", e => {
     const [i, j] = [e.x - 690, e.y - 140].map(rounded1);
     if (i < 0 || i > 8) return;//**9
     if (j < 0 || j > 9) return;//**8
-    console.log(i, j);
-    console.log("mouse location:", e.clientX, e.clientY);
 	if(p2Power != turnCount){
 		hitBoard(1, i, j);
 	}else{
@@ -358,7 +349,6 @@ document.addEventListener("click", e => {
 	}
   }
   turnDone = 1;
-  console.log(setup);
 })
 
 /**
@@ -373,7 +363,6 @@ function changeTurn() {
     } else {
       player = 0;
     }
-    console.log(player);
     swapping = 1;
     document.querySelector("#changeTurnBtn").style.display = "none";
     document.querySelector("#confirmChangeBtn").style.display = "initial";
@@ -411,10 +400,8 @@ function confirmChange() {
 	  }
 
 	  if(player == 0 && turnCount == p1Power){
-		  	  console.log(p1PowerDir);
 		  while(p1PowerDir != "row" && p1PowerDir != "column"){
 			  p1PowerDir = window.prompt("You got your power shot! Please input either 'row' or 'column' for your shot.", "");
-			  console.log(p1PowerDir);
 		  }
 	  } else if (player == 1 && turnCount == p2Power && aiSelect == false){
 		  while(p2PowerDir != 'row' && p2PowerDir != 'column'){
@@ -439,12 +426,6 @@ function hitBoard(player, x, y) {
 	  let count = 0;
 	  if (player == 0 && turnDone == 0) {
 		if (board4[y][x] != 0) { //player2 board4 change color
-		/*
-		  context.fillStyle = 'Red';
-		  context.beginPath();
-		  context.arc(x * 40 + 710, y * 40 + 610, 20, 0, 2 * Math.PI); //**x=850 y=600
-		  context.fill();
-		  */
 
 		  let shipL = board4[y][x];
 		  board1[y][x] = 2;
@@ -482,12 +463,6 @@ function hitBoard(player, x, y) {
 	  }
 	  if (player == 1 && turnDone == 0) {
 		if (board3[y][x] != 0 && board3[y][x] != 7) { //player1 board3 change color
-		/*
-		  context.fillStyle = 'Red';
-		  context.beginPath();
-		  context.arc(x * 40 + 60, y * 40 + 610, 20, 0, 2 * Math.PI); //***x=200 y=600
-		  context.fill();
-		  */
 
 		  let shipL = board3[y][x];
 		  board2[y][x] = 2;
@@ -522,9 +497,7 @@ function hitBoard(player, x, y) {
 		}
 	  }
 	  sunkShips();
-	  console.log(player);
 	  if (click > 0) {
-		console.log("IT DID SOMETHING");
 		currentTurn++;
 		changeTurn();
 		return;

@@ -49,7 +49,6 @@ function aiPlaceShips(numShips){
 		}
 		if (valid == true) {
 		  for (let j = 0; j < shipLength + 1; j++) {
-			console.log("placing ship " + shipLength+1);
 			board4[y - 1][x - 1] = shipLength + 1;  //***Test, indicates ship at i,j need to change to shiplength
 			if (orientation == 'u') {
 			  y--;
@@ -106,6 +105,7 @@ function mediumShot(){
 	//use hitBoard() after calculating index
 	
 	if(hits==0){
+<<<<<<< HEAD
 		while(true){
 			var x = Math.floor(Math.random()* (8));//col
 			var y = Math.floor(Math.random()* (9));//row
@@ -137,11 +137,23 @@ function mediumShot(){
 				trow=AiRow; 
 				tcol=AiCol;
 			}		
+=======
+		var x = Math.floor(Math.random()* (8) + 1);//col
+		var y = Math.floor(Math.random()* (9) + 1);//row
+		shipNum=board3[y][x];//add board Number
+		hitBoard(1 ,x, y);
+		if(board3[y][x]==7)//add board Number
+		{
+			hits++;
+			AiCol=x;
+			AiRow=y;
+			trow=AiRow; 
+			tcol=AiCol;
+>>>>>>> c88c9cf88cd9e44a3513a5d69b44d619a57ca24b
 		}
 	}
 	else
 	{		
-		console.log("hi in ortho shot"+trow+tcol);
 		while(true){
 			if(trow-1>=0&&tcol<9&&board2[trow-1][tcol] == 0)//check up 
 			{
@@ -150,12 +162,10 @@ function mediumShot(){
 					trow=trow-1;
 					tcol=tcol;
 					hitBoard(player,tcol,trow);
-					console.log("hi in ortho shot row-1 "+trow+tcol);
 				}
 				else 
 				{
 					hitBoard(player,tcol,trow-1);
-					console.log("hi in ortho shot row-1 "+trow-1+tcol);
 
 				}
 				break;
@@ -167,12 +177,10 @@ function mediumShot(){
 					trow=trow;
 					tcol=tcol+1;
 					hitBoard(player,tcol,trow);
-					console.log("hi in ortho shot col+1 "+trow+tcol);
 				}
 				else 
 				{
 					hitBoard(player,tcol+1,trow);
-					console.log("hi in ortho shot row-1 "+trow+tcol+1);
 				}
 				break;
 			}
@@ -183,12 +191,10 @@ function mediumShot(){
 					trow=trow+1;
 					tcol=tcol;
 					hitBoard(player,tcol,trow);
-					console.log("hi in ortho shot row+1 "+trow+tcol);
 				}
 				else 
 				{
 					hitBoard(player,tcol,trow+1);
-					console.log("hi in ortho shot row-1 "+trow+1+tcol);
 				}
 				break;
 			}
@@ -199,12 +205,10 @@ function mediumShot(){
 					trow=trow;
 					tcol=tcol-1;
 					hitBoard(player,tcol,trow);
-					console.log("hi in ortho shot col-1 "+trow+tcol);
 				}
 				else 
 				{
 					hitBoard(player,tcol-1,trow);
-					console.log("hi in ortho shot row-1 "+trow+tcol-1);
 				}
 				break;
 			}
@@ -241,7 +245,6 @@ function hardShot(){
 		}else{
 			p2PowerDir = 'column'
 		}
-		console.log("shooting otho shot");
 		orthoShot(1, x, y);
 		storePlayerShips();
 	}else{
