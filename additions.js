@@ -84,6 +84,9 @@ function storePlayerShips(){
 
 function easyShot(){
 	//use hitBoard() after calculating index
+	var x = Math.floor(Math.random()* (8) + 1);//col
+	var y = Math.floor(Math.random()* (9) + 1);//row
+	hitBoard(1 ,x, y);
 }
 
 function mediumShot(){
