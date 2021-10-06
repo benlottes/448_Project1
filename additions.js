@@ -96,7 +96,6 @@ function mediumShot(){
 		var y = Math.floor(Math.random()* (9) + 1);//row
 		shipNum=board3[y][x];//add board Number
 		hitBoard(1 ,x, y);
-		console.log("hi"+y+x);
 		if(board3[y][x]==7)//add board Number
 		{
 			hits++;
@@ -108,7 +107,6 @@ function mediumShot(){
 	}
 	else
 	{		
-		console.log("hi in ortho shot"+trow+tcol);
 		while(true){
 			if(trow-1>=0&&tcol<9&&board2[trow-1][tcol] == 0)//check up 
 			{
@@ -117,12 +115,10 @@ function mediumShot(){
 					trow=trow-1;
 					tcol=tcol;
 					hitBoard(player,tcol,trow);
-					console.log("hi in ortho shot row-1 "+trow+tcol);
 				}
 				else 
 				{
 					hitBoard(player,tcol,trow-1);
-					console.log("hi in ortho shot row-1 "+trow-1+tcol);
 
 				}
 				break;
@@ -134,12 +130,10 @@ function mediumShot(){
 					trow=trow;
 					tcol=tcol+1;
 					hitBoard(player,tcol,trow);
-					console.log("hi in ortho shot col+1 "+trow+tcol);
 				}
 				else 
 				{
 					hitBoard(player,tcol+1,trow);
-					console.log("hi in ortho shot row-1 "+trow+tcol+1);
 				}
 				break;
 			}
@@ -150,12 +144,10 @@ function mediumShot(){
 					trow=trow+1;
 					tcol=tcol;
 					hitBoard(player,tcol,trow);
-					console.log("hi in ortho shot row+1 "+trow+tcol);
 				}
 				else 
 				{
 					hitBoard(player,tcol,trow+1);
-					console.log("hi in ortho shot row-1 "+trow+1+tcol);
 				}
 				break;
 			}
@@ -166,12 +158,10 @@ function mediumShot(){
 					trow=trow;
 					tcol=tcol-1;
 					hitBoard(player,tcol,trow);
-					console.log("hi in ortho shot col-1 "+trow+tcol);
 				}
 				else 
 				{
 					hitBoard(player,tcol-1,trow);
-					console.log("hi in ortho shot row-1 "+trow+tcol-1);
 				}
 				break;
 			}
