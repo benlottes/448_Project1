@@ -49,7 +49,6 @@ function aiPlaceShips(numShips){
 		}
 		if (valid == true) {
 		  for (let j = 0; j < shipLength + 1; j++) {
-			console.log("placing ship " + shipLength+1);
 			board4[y - 1][x - 1] = shipLength + 1;  //***Test, indicates ship at i,j need to change to shiplength
 			if (orientation == 'u') {
 			  y--;
@@ -183,7 +182,7 @@ function mediumShot(){
 			for(let r = 0; r < col; r++){
 				for(let c = 0; c < row; c++){
 					if(board3[r][c] == shipNum){
-						s = false;//this is supposed to set hits to zer o if the ship is sunk, but i dont think it works
+						s = false;//this is supposed to set hits to zero if the ship is sunk, but i dont think it works
 					}
 				}
 			}
@@ -239,7 +238,6 @@ function hardShot(){
 		}else{
 			p2PowerDir = 'column'
 		}
-		console.log("shooting otho shot");
 		orthoShot(1, x, y);
 		storePlayerShips();
 	}else{
