@@ -439,10 +439,12 @@ function hitBoard(player, x, y) {
 	  let count = 0;
 	  if (player == 0 && turnDone == 0) {
 		if (board4[y][x] != 0) { //player2 board4 change color
+		/*
 		  context.fillStyle = 'Red';
 		  context.beginPath();
 		  context.arc(x * 40 + 710, y * 40 + 610, 20, 0, 2 * Math.PI); //**x=850 y=600
 		  context.fill();
+		  */
 
 		  let shipL = board4[y][x];
 		  board1[y][x] = 2;
@@ -480,10 +482,12 @@ function hitBoard(player, x, y) {
 	  }
 	  if (player == 1 && turnDone == 0) {
 		if (board3[y][x] != 0 && board3[y][x] != 7) { //player1 board3 change color
+		/*
 		  context.fillStyle = 'Red';
 		  context.beginPath();
 		  context.arc(x * 40 + 60, y * 40 + 610, 20, 0, 2 * Math.PI); //***x=200 y=600
 		  context.fill();
+		  */
 
 		  let shipL = board3[y][x];
 		  board2[y][x] = 2;
