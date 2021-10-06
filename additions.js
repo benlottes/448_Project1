@@ -105,7 +105,6 @@ function mediumShot(){
 	//use hitBoard() after calculating index
 	
 	if(hits==0){
-<<<<<<< HEAD
 		while(true){
 			var x = Math.floor(Math.random()* (8));//col
 			var y = Math.floor(Math.random()* (9));//row
@@ -137,19 +136,6 @@ function mediumShot(){
 				trow=AiRow; 
 				tcol=AiCol;
 			}		
-=======
-		var x = Math.floor(Math.random()* (8) + 1);//col
-		var y = Math.floor(Math.random()* (9) + 1);//row
-		shipNum=board3[y][x];//add board Number
-		hitBoard(1 ,x, y);
-		if(board3[y][x]==7)//add board Number
-		{
-			hits++;
-			AiCol=x;
-			AiRow=y;
-			trow=AiRow; 
-			tcol=AiCol;
->>>>>>> c88c9cf88cd9e44a3513a5d69b44d619a57ca24b
 		}
 	}
 	else
