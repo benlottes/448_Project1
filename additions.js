@@ -140,68 +140,92 @@ function mediumShot(){
 	}
 	else
 	{		
+		let count = 0;
+		let dist = 1;
 		while(true){
-			if(trow-1>=0&&tcol<9&&board2[trow-1][tcol] == 0)//check up 
+			if(trow-dist>=0 && tcol<9 && board2[trow-dist][tcol] == 0 && ((!(count > 1) && !(board3[trow-dist][tcol] == shipNum)) || (board3[trow-dist][tcol] == shipNum)))//check up 
 			{
-				if (board3[trow-1][tcol]==shipNum)
+				if (board3[trow-dist][tcol]==shipNum)
 				{
-					trow=trow-1;
+					trow=trow-dist;
 					tcol=tcol;
 					hitBoard(player,tcol,trow);
+					dist = 1;
+					count = 0;
+					break;
 				}
-				else 
+				else if(dist == 1)
 				{
-					hitBoard(player,tcol,trow-1);
-
+					hitBoard(player,tcol,trow-dist);
+					break;
 				}
-				break;
 			}
-			else if(trow<10&&tcol+1<9&&board2[trow][tcol+1] == 0)//check right
+			else if(trow<10 && tcol+dist<9 && board2[trow][tcol+dist] == 0 && ((!(count > 1) && !(board3[trow][tcol+dist] == shipNum)) || (board3[trow][tcol+dist] == shipNum)))//check right
 			{
-				if (board3[trow][tcol+1]==shipNum)
+				if (board3[trow][tcol+dist]==shipNum)
 				{
 					trow=trow;
-					tcol=tcol+1;
+					tcol=tcol+dist;
 					hitBoard(player,tcol,trow);
+					dist = 1;
+					count = 0;
+					break;
 				}
-				else 
+				else if(dist == 1)
 				{
-					hitBoard(player,tcol+1,trow);
+					hitBoard(player,tcol+dist,trow);
+					break;
 				}
-				break;
 			}
-			else if(trow+1<10&&tcol<9&&board2[trow+1][tcol] == 0)//check down
+			else if(trow+dist<10 && tcol<9 && board2[trow+dist][tcol] == 0 && ((!(count > 1) && !(board3[trow+dist][tcol] == shipNum)) || (board3[trow+dist][tcol] == shipNum)))//check down
 			{
-				if (board3[trow+1][tcol]==shipNum)
+				if (board3[trow+dist][tcol]==shipNum)
 				{
-					trow=trow+1;
+					trow=trow+dist;
 					tcol=tcol;
 					hitBoard(player,tcol,trow);
+					dist = 1;
+					count = 0;
+					break;
 				}
-				else 
+				else if(dist == 1)
 				{
-					hitBoard(player,tcol,trow+1);
+					hitBoard(player,tcol,trow+dist);
+					break;
 				}
-				break;
 			}
-			else if(trow<10&&tcol-1<9&&board2[trow][tcol-1] == 0)//check left
+			else if(trow<10 && tcol-dist<9 && board2[trow][tcol-dist] == 0 && ((!(count > 1) && !(board3[trow][tcol-dist] == shipNum)) || (board3[trow][tcol-dist] == shipNum)))//check left
 			{
-				if (board3[trow][tcol-1]==shipNum)
+				if (board3[trow][tcol-dist]==shipNum)
 				{
 					trow=trow;
-					tcol=tcol-1;
+					tcol=tcol-dist;
 					hitBoard(player,tcol,trow);
+					dist = 1;
+					count = 0;
+					break;
 				}
-				else 
+				else if(dist == 1)
 				{
-					hitBoard(player,tcol-1,trow);
+					hitBoard(player,tcol-dist,trow);
+					break;
 				}
-				break;
 			}
 			else
 			{
-				trow=AiRow;
-				tcol=AiCol;
+				if(count == 0){
+					trow=AiRow;
+					tcol=AiCol;
+				}
+				count++;
+				if(count > 1){
+					if(dist >= 3){
+						dist++;
+					}
+					else{
+						dist = 3;
+					}
+				}
 				continue;
 			}
 		}
