@@ -82,7 +82,15 @@ function aiPlaceShips(numShips){
 	confirmChange();
 }
 
-// helper function for hardShot
+/** 
+*storePlayerShips() is a helper function to hardShot(). This function 
+*stores every enemy ship into an array, userShips. This helps hardShot()
+*hit every time becuase the AI can shoot every element in the array
+*to sink every ship. After searching the players board for ship objects,
+*each location is pushed into the array.
+*@param none
+*@return none 
+*/ 
 function storePlayerShips(){
 	userShips.length = 0;
 	for(let r = 0; r < col; r++){
