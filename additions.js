@@ -103,6 +103,13 @@ function storePlayerShips(){
 	}
 }
 
+/**
+*The easyShot function helps the ai generate a random location on the board and, depending on
+*the number of turns the ai is at, it either calls the hitBoard function to shoot at that single 
+*location or the orthoShot function to shoot an entire row or column.
+*@param none
+*@return none
+*/
 function easyShot(){
 	//use hitBoard() after calculating index
 	var x = Math.floor(Math.random()* (8) + 1);//col
@@ -275,9 +282,12 @@ function mediumShot(){
 	}
 }
 
-/* when hardshot is called in the main game, might have to pass in some variable 
-that updates(starting with 0) with each hit (everytime hardshot is called). This 
-is how the function keeps track of which location in userShips to hit next */
+/**The hardShot function helps the ai pick from tha userShips array the location of one of the 
+*player's ships that has not been shot yet and either calls the hitBoard function to shoot at 
+*that single location or the orthoShot function to shoot an entire row or column.
+*@param none
+*@return none
+*/
 function hardShot(){
 	let [x,y] = userShips.pop();
 	if(p2Power == turnCount){
