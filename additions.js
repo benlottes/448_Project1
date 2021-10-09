@@ -15,6 +15,20 @@ let trow;
 let hits=0;
 let shipNum;
 
+/** 
+*aiPlaceships() assist the AI set up process or placing ships on the board.
+*This function takes in numShips which tracks the number of ships that require
+*random placement. Fisrt, this function creates a variable to track orientation. 
+*Next, iterating from 0 to numShips, the (x, y) coordinate pair of the head of the 
+*ship is randomly generated as well as the orientation. The the next loop iterates 
+*from 0 to the ships length in order to check for valid placement. It first ensures
+*placement is within bounds of the board. Then, it checks if the placement is on an 
+*empty portion of the board. If these checks are passed, the AI will place each ship 
+*in a random location and orientation. The function then calls changeTurn() and 
+*confirmChage() to continue on with the game.
+*@param numShips, paramater to track the number of ships the user wishes to play with
+*@return none 
+*/ 
 function aiPlaceShips(numShips){
 	let oriOptions = ['u','d','l','r'];
 	for (i = 0; i < numShips; i++) {
@@ -272,6 +286,18 @@ function hardShot(){
 	}
 }
 
+/** 
+*orthoShot() powers up the shot the player gets to use by hitting an entire row
+*or column. This function takes in player number, column number and row number.
+*First, it checks if player one is up, then determines if the player wants to 
+*hit an entire row or an entire column. Once the players option is considered, 
+*they are free to select any row or column. This process will be repeated for
+*player 2's power shot. 
+*@param player, paramater to track which player is currently shooting
+*@param c, parameter to track which column the player wishes to hit
+*@param r, parameter to track which row the player wishes to hit
+*@return none 
+*/
 function orthoShot(player, c, r){
 	if(player == 0){
 		if(p1PowerDir == 'row'){
@@ -296,6 +322,15 @@ function orthoShot(player, c, r){
 	}
 }
 
+/** 
+*calculateRandomTurn() is a helper function for orthoShot(). This 
+*function ensures that the power shot is provided to the player within 
+*the first few turns. This ensures that the user still gets the 
+*functionality on a shorter game. This function takes in numShips to 
+*determine how quickly to provide a power shot.
+*@param numShips, parameter to track the number of ships the user selected 
+*@return none 
+*/
 function calculateRandomTurn(numShips){
 	do{
 		p1Power = Math.floor(Math.random() * (numShips*2)+1);
@@ -305,6 +340,14 @@ function calculateRandomTurn(numShips){
 	}while(p2Power % 2 != 0);
 }
 
+/** 
+*aiTurn() is called when its the AI's turn to shoot. 
+*The variable difficulty is selected by the user, and aiTurn
+*calls the corresponding AI function. After the shot is complete, 
+*the function changes turns back to the player.
+*@param none
+*@return none 
+*/
 function aiTurn(){
 	if(turnCount > 0){
 		if(difficulty == 'easy'){
