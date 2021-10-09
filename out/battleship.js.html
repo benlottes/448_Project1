@@ -38,6 +38,7 @@ let numShips = 0;
 let numShips1 = 0; //**
 let numShips2 = 0; //**
 let board1 = new Array(col); //top left player 1.
+
 for (let i = 0; i &lt; col; i++) {
   board1[i] = new Array(row);
 }
@@ -133,6 +134,23 @@ function placeShips() {
     }
     numShips = parseFloat(numShips);
   }
+  if(setup == 2){
+	  let numPlayers;
+	  while(numPlayers != '1' &amp;&amp; numPlayers != '2'){
+		  numPlayers = window.prompt("How many players, '1' or '2'?");
+	  }
+	  if(numPlayers == '1'){
+		  while(difficulty != 'easy' &amp;&amp; difficulty != 'medium' &amp;&amp; difficulty != 'hard'){
+			difficulty = window.prompt("What difficulty, 'easy' 'medium' or 'hard'?");
+		  }
+		  aiSelect = true;
+	  }else {
+		  aiSelect = false;
+	  }
+  }
+  
+  calculateRandomTurn(numShips);
+  
   numShips1 = numShips; //**
   numShips2 = numShips; //**
 
@@ -183,13 +201,11 @@ function placeShips() {
     for (let j = 0; j &lt; shipLength + 1; j++) { //making sure placement is valid
       if (testX &lt; 1 || testY &lt; 1 || testX > 9 || testY > 10) { //*** changed to 1-9 &amp; 1-10
         valid = false;
-        console.log('not valid');
         i -= 1;
         break;
       }
       if ((board3[testY - 1][testX - 1] != 0 &amp;&amp; player == 0) || (board4[testY - 1][testX - 1] != 0 &amp;&amp; player == 1)) { //**** Big Change
         valid = false;
-        console.log('not valid');
         i -= 1;
         break;
       }
@@ -210,7 +226,6 @@ function placeShips() {
         } else {
           board4[y - 1][x - 1] = shipLength + 1;  //***Test, indicates ship at i,j need to change to shiplength
         }
-        console.log(x - 1, y - 1) // actual array position
         if (orientation == 'u') {
           y--;
         } else if (orientation == 'd') {
@@ -228,13 +243,17 @@ function placeShips() {
     }
   }
   document.getElementById("message").innerHTML = "Game in progress...";
+  
   if (document.getElementById("startBtn") != null) {
     document.getElementById("startBtn").remove(); //remove start button
+	document.getElementById("changeTurnBtn").disabled = false; //enable end turn button
   }
+
   if (setup > 0) {
     turnDone = 1;
   }
   setup--;
+  storePlayerShips();
   //changeTurn();
 }
 
@@ -323,52 +342,58 @@ function updateLowerBoards() {
   }
 }
 
-
-function printBoard3() {
-  console.log(board3);
-}
-
-
-
+/**
+*Game display init
+*@param None
+*@return None
+*/
 document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("changeTurnBtn").disabled = true; //disable end turn button
   canvas = document.querySelector("#projectCanvas");
-  console.log("Got here");
   context = canvas.getContext("2d");
-  //console.log(context);
   boards();
-  printBoard3();
   document.querySelector("#confirmChangeBtn").style.display = "none";
   document.querySelector("#nextPlayer").style.display = "none";
 })
 
-
+/**
+*Used to round the location of the mouse to spaces in the battleship grid
+*@param x The number passed in to be rounded
+*@return x after arithmetic conversion 
+*/
 function rounded1(x) { return (Math.ceil((x) / 40) - 1) }
 
+/**
+*Waits for a valid click event then runs hitboard or orthoshot accordingly
+*@param None
+*@return None
+*/
 document.addEventListener("click", e => {
   if (player == 0) {
     const [i, j] = [e.x - 40, e.y - 140].map(rounded1);
     if (i &lt; 0 || i > 8) return; //**9
     if (j &lt; 0 || j > 9) return; //**8
-    console.log(i, j);
-    console.log("mouse location:", e.clientX, e.clientY);
-    hitBoard(0, i, j);
+	if(p1Power != turnCount){
+		hitBoard(0, i, j);
+	}else{
+		orthoShot(0, i, j);
+	}
   }
 
   if (player == 1) {
     const [i, j] = [e.x - 690, e.y - 140].map(rounded1);
     if (i &lt; 0 || i > 8) return;//**9
     if (j &lt; 0 || j > 9) return;//**8
-    console.log(i, j);
-    console.log("mouse location:", e.clientX, e.clientY);
-    hitBoard(1, i, j);
+	if(p2Power != turnCount){
+		hitBoard(1, i, j);
+	}else{
+		orthoShot(1, i, j);
+	}
   }
   turnDone = 1;
-  printBoard3();
-  console.log(setup);
 })
 
 /**
-*
 *Switches to the screen where players will swap the device
 *Pre - none, Post - None
 */
@@ -379,7 +404,6 @@ function changeTurn() {
     } else {
       player = 0;
     }
-    console.log(player);
     swapping = 1;
     document.querySelector("#changeTurnBtn").style.display = "none";
     document.querySelector("#confirmChangeBtn").style.display = "initial";
@@ -389,11 +413,11 @@ function changeTurn() {
     document.querySelector("#nextPlayer").innerText = "Give the device to Player " + (player + 1);
     context.clearRect(0, 0, canvas.width, canvas.height);
     //confirmChange();
+	
   }
 }
 
 /**
-*
 *Finishes the turn change, redisplaying the board for the other player
 *Pre - none, Post - None
 */
@@ -408,198 +432,129 @@ function confirmChange() {
   updateLowerBoards();
   document.querySelector("#nextPlayer").innerText = "Give the device to Player " + (player + 1);
   document.querySelector("#nextPlayer").style.display = "none";
-  setTimeout(function () {
-    if (setup > 0) {
-      placeShips();
-      console.log(setup);
-    }
-  }, 100)
-}
 
-/*function hitBoard(player, x, y)  {
-  sunkShips();
-  let click = 0;
-  let count = 0;
-  if (player == 0 &amp;&amp; turnDone == 0) {
-  if (board4[y][x] != 0) { //player2 board4 change color
-    context.fillStyle = 'Red';
-    context.beginPath();
-    context.arc(x * 40 + 710, y * 40 + 610, 20, 0, 2 * Math.PI); //**x=850 y=600
-    context.fill();
-    
-    let shipL = board4[y][x];
-    board1[y][x] = 2;
-    board4[y][x] = 7;
-     
-    context.fillStyle = 'Red'; //player1 board1 change color
-    context.beginPath();
-    context.arc(x * 40 + 60, y * 40 + 160, 20, 0, 2 * Math.PI); //***x=200 y=150
-    context.fill();
-    
-    for (let i = 0; i &lt; col; i++) {
-      for (let j = 0; j &lt; row; j++)  {
-    if(board4[i][j] == shipL) {count++;}    	 
-      }
-    }
-    if (count == 0) {
-    numShips2--;
-  if (numShips2 == 0){
-    window.alert("Game over: Player1 is the winner!");
-    location.reload();
+  if(setup == 0){
+	  turnCount++
+	  if(aiSelect == true &amp;&amp; turnCount % 2 == 0){
+	    aiTurn();
+	  }
+
+	  if(player == 0 &amp;&amp; turnCount == p1Power){
+		  while(p1PowerDir != "row" &amp;&amp; p1PowerDir != "column"){
+			  p1PowerDir = window.prompt("You got your power shot! Please input either 'row' or 'column' for your shot.", "");
+		  }
+	  } else if (player == 1 &amp;&amp; turnCount == p2Power &amp;&amp; aiSelect == false){
+		  while(p2PowerDir != 'row' &amp;&amp; p2PowerDir != 'column'){
+			  p2PowerDir = prompt("You got your power shot! Please input either 'row' or 'column' for your shot. Then select a cell.", "");
+		  }
+	  }
+	}
+  if(aiSelect == false){
+	if (setup > 0) {
+	  placeShips();
+	}
+  }else if(setup == 1){
+	  aiPlaceShips(numShips);
   }
-    sunkShips();    
-    }
-  }
-    else { //if miss board1 is grey
-      board1[y][x] = 1;
-      context.fillStyle = 'Grey';
-      context.beginPath();
-      context.arc(x * 40 + 60, y * 40 + 160, 20, 0, 2 * Math.PI); //***x=200 y=150
-      context.fill();
-    }
-  turnDone = 1;
-  }
-  if (player == 1 &amp;&amp; turnDone == 0) {
-  if (board3[y][x] != 0 &amp;&amp; board3[y][x] != 7) { //player1 board3 change color
-    context.fillStyle = 'Red';
-    context.beginPath();
-    context.arc(x * 40 + 60, y * 40 + 610, 20, 0, 2 * Math.PI); //***x=200 y=600
-    context.fill();
-    
-    let shipL = board3[y][x];
-    board2[y][x] = 2;
-    board3[y][x] = 7;
-     
-    context.fillStyle = 'Red'; //player2 board2 change color
-    context.beginPath();
-    context.arc(x * 40 + 710, y * 40 + 160, 20, 0, 2 * Math.PI); //***x=850 y=150
-    context.fill();
-    
-    for (let i = 0; i &lt; col; i++) {
-      for (let j = 0; j &lt; row; j++){
-    if(board3[i][j] == shipL) {count++;}    	 
-      }
-    }
-    if (count == 0) {
-    numShips1--; //
-  if (numShips1 == 0){
-    window.alert("Game over: Player2 is the winner!");
-    location.reload();
-  }
-    sunkShips();    
-    }
-  turnDone = 1;
-  }
-  else { //if miss board2 is grey
-    board2[y][x] = 1;
-    context.fillStyle = 'Grey';
-    context.beginPath();
-    context.arc(x * 40 + 710, y * 40 + 160, 20, 0, 2 * Math.PI); //***x=850 y=150
-    context.fill();
-  }
-  }
-  sunkShips();    
-  console.log(player);
-  if(click > 0) {
-  turnDone = 1;
-  changeTurn();
-  return;
-  }
-}*/
-//hit or miss 
+}
+/**
+* The function handles the logic for "shooting" at an opponents board given the game is still running and game setup is complete
+*@param player The player shooting currently
+*@param x The x-coordinate of the position being shot at
+*@param y The y-coordinate of the position being shot at
+*@return None
+*/
 function hitBoard(player, x, y) {
-  sunkShips();
-  let click = 0;
-  let count = 0;
-  if (player == 0 &amp;&amp; turnDone == 0) {
-    if (board4[y][x] != 0) { //player2 board4 change color
-      context.fillStyle = 'Red';
-      context.beginPath();
-      context.arc(x * 40 + 710, y * 40 + 610, 20, 0, 2 * Math.PI); //**x=850 y=600
-      context.fill();
+	if(setup == 0){
+	  sunkShips();
+	  let click = 0;
+	  let count = 0;
+	  if (player == 0 &amp;&amp; turnDone == 0) {
+		if (board4[y][x] != 0) { //player2 board4 change color
 
-      let shipL = board4[y][x];
-      board1[y][x] = 2;
-      board4[y][x] = 7;
+		  let shipL = board4[y][x];
+		  board1[y][x] = 2;
+		  board4[y][x] = 7;
 
 
-      context.fillStyle = 'Red'; //player1 board1 change color
-      context.beginPath();
-      context.arc(x * 40 + 60, y * 40 + 160, 20, 0, 2 * Math.PI); //***x=200 y=150
-      context.fill();
+		  context.fillStyle = 'Red'; //player1 board1 change color
+		  context.beginPath();
+		  context.arc(x * 40 + 60, y * 40 + 160, 20, 0, 2 * Math.PI); //***x=200 y=150
+		  context.fill();
 
-      for (let i = 0; i &lt; col; i++) {
-        for (let j = 0; j &lt; row; j++) {
-          if (board4[i][j] == shipL) { count++; }
-        }
-      }
-      if (count == 0) {
-        numShips2--;
-        if (numShips2 == 0) {
-          window.alert("Game over: Player1 is the winner!");
-          location.reload();
-        }
-        sunkShips();
-      }
-    }
-    else { //if miss board1 is grey
-      board1[y][x] = 1;
-      context.fillStyle = 'Grey';
-      context.beginPath();
-      context.arc(x * 40 + 60, y * 40 + 160, 20, 0, 2 * Math.PI); //***x=200 y=150
-      context.fill();
-    }
-    turnDone = 1;
-  }
-  if (player == 1 &amp;&amp; turnDone == 0) {
-    if (board3[y][x] != 0 &amp;&amp; board3[y][x] != 7) { //player1 board3 change color
-      context.fillStyle = 'Red';
-      context.beginPath();
-      context.arc(x * 40 + 60, y * 40 + 610, 20, 0, 2 * Math.PI); //***x=200 y=600
-      context.fill();
+		  for (let i = 0; i &lt; col; i++) {
+			for (let j = 0; j &lt; row; j++) {
+			  if (board4[i][j] == shipL) { 
+				count++; //counts number of remaining indices of a specific size ship, if there are none, it is sunk
+				}	
+			}
+		  }
+		  if (count == 0) {
+			numShips2--;
+			if (numShips2 == 0) {
+			  window.alert("Game over: Player1 is the winner!");
+			  location.reload();
+			}
+			sunkShips();
+		  }
+		}
+		else { //if miss board1 is grey
+		  board1[y][x] = 1;
+		  context.fillStyle = 'Grey';
+		  context.beginPath();
+		  context.arc(x * 40 + 60, y * 40 + 160, 20, 0, 2 * Math.PI); //***x=200 y=150
+		  context.fill();
+		}
+	  }
+	  if (player == 1 &amp;&amp; turnDone == 0) {
+		if (board3[y][x] != 0 &amp;&amp; board3[y][x] != 7) { //player1 board3 change color
 
-      let shipL = board3[y][x];
-      board2[y][x] = 2;
-      board3[y][x] = 7;
+		  let shipL = board3[y][x];
+		  board2[y][x] = 2;
+		  board3[y][x] = 7;
 
-      context.fillStyle = 'Red'; //player2 board2 change color
-      context.beginPath();
-      context.arc(x * 40 + 710, y * 40 + 160, 20, 0, 2 * Math.PI); //***x=850 y=150
-      context.fill();
+		  context.fillStyle = 'Red'; //player2 board2 change color
+		  context.beginPath();
+		  context.arc(x * 40 + 710, y * 40 + 160, 20, 0, 2 * Math.PI); //***x=850 y=150
+		  context.fill();
 
-      for (let i = 0; i &lt; col; i++) {
-        for (let j = 0; j &lt; row; j++) {
-          if (board3[i][j] == shipL) { count++; }
-        }
-      }
-      if (count == 0) {
-        numShips1--; //
-        if (numShips1 == 0) {
-          window.alert("Game over: Player2 is the winner!");
-          location.reload();
-        }
-        sunkShips();
-      }
-      turnDone = 1;
-    }
-    else { //if miss board2 is grey
-      board2[y][x] = 1;
-      context.fillStyle = 'Grey';
-      context.beginPath();
-      context.arc(x * 40 + 710, y * 40 + 160, 20, 0, 2 * Math.PI); //***x=850 y=150
-      context.fill();
-    }
-  }
-  sunkShips();
-  console.log(player);
-  if (click > 0) {
-    turnDone = 1;
-    changeTurn();
-    return;
-  }
+		  for (let i = 0; i &lt; col; i++) {
+			for (let j = 0; j &lt; row; j++) {
+			  if (board3[i][j] == shipL) { count++; }
+			}
+		  }
+		  if (count == 0) {
+			numShips1--; //
+			if (numShips1 == 0) {
+			  window.alert("Game over: Player2 is the winner!");
+			  location.reload();
+			}
+			sunkShips();
+			
+		  }
+		}
+		else { //if miss board2 is grey
+		  board2[y][x] = 1;
+		  context.fillStyle = 'Grey';
+		  context.beginPath();
+		  context.arc(x * 40 + 710, y * 40 + 160, 20, 0, 2 * Math.PI); //***x=850 y=150
+		  context.fill();
+		}
+	  }
+	  sunkShips();
+	  if (click > 0) {
+		currentTurn++;
+		changeTurn();
+		return;
+	  }
+	}
 }
 
-//redraws the the area that displays the total number of ships and ships left per player
+/**
+* The function handles Displaying the "scoreboard" after every turn. Scoreboard displays total number of ships and number of ships left
+*@param None
+*@return None
+*/
 function sunkShips() {
   context.fillStyle = 'White';
   context.fillRect(50, 10, 250, 80);
@@ -627,13 +582,13 @@ function sunkShips() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#changeTurn">changeTurn</a></li><li><a href="global.html#confirmChange">confirmChange</a></li><li><a href="global.html#placeShips">placeShips</a></li><li><a href="global.html#updateLowerBoards">updateLowerBoards</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#changeTurn">changeTurn</a></li><li><a href="global.html#confirmChange">confirmChange</a></li><li><a href="global.html#hitBoard">hitBoard</a></li><li><a href="global.html#mediumShot">mediumShot</a></li><li><a href="global.html#placeShips">placeShips</a></li><li><a href="global.html#rounded1">rounded1</a></li><li><a href="global.html#sunkShips">sunkShips</a></li><li><a href="global.html#updateLowerBoards">updateLowerBoards</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Sun Sep 19 2021 22:47:22 GMT-0500 (Central Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Sat Oct 09 2021 12:21:41 GMT-0500 (Central Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

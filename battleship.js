@@ -314,6 +314,11 @@ function updateLowerBoards() {
   }
 }
 
+/**
+*Game display init
+*@param None
+*@return None
+*/
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("changeTurnBtn").disabled = true; //disable end turn button
   canvas = document.querySelector("#projectCanvas");
@@ -323,9 +328,18 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelector("#nextPlayer").style.display = "none";
 })
 
-
+/**
+*Used to round the location of the mouse to spaces in the battleship grid
+*@param x The number passed in to be rounded
+*@return x after arithmetic conversion 
+*/
 function rounded1(x) { return (Math.ceil((x) / 40) - 1) }
 
+/**
+*Waits for a valid click event then runs hitboard or orthoshot accordingly
+*@param None
+*@return None
+*/
 document.addEventListener("click", e => {
   if (player == 0) {
     const [i, j] = [e.x - 40, e.y - 140].map(rounded1);
@@ -352,7 +366,6 @@ document.addEventListener("click", e => {
 })
 
 /**
-*
 *Switches to the screen where players will swap the device
 *Pre - none, Post - None
 */
@@ -377,7 +390,6 @@ function changeTurn() {
 }
 
 /**
-*
 *Finishes the turn change, redisplaying the board for the other player
 *Pre - none, Post - None
 */
@@ -417,8 +429,13 @@ function confirmChange() {
 	  aiPlaceShips(numShips);
   }
 }
-
-//hit or miss 
+/**
+* The function handles the logic for "shooting" at an opponents board given the game is still running and game setup is complete
+*@param player The player shooting currently
+*@param x The x-coordinate of the position being shot at
+*@param y The y-coordinate of the position being shot at
+*@return None
+*/
 function hitBoard(player, x, y) {
 	if(setup == 0){
 	  sunkShips();
@@ -505,7 +522,11 @@ function hitBoard(player, x, y) {
 	}
 }
 
-//redraws the the area that displays the total number of ships and ships left per player
+/**
+* The function handles Displaying the "scoreboard" after every turn. Scoreboard displays total number of ships and number of ships left
+*@param None
+*@return None
+*/
 function sunkShips() {
   context.fillStyle = 'White';
   context.fillRect(50, 10, 250, 80);
