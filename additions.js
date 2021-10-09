@@ -101,6 +101,16 @@ function easyShot(){
 	}
 }
 
+/** 
+*mediumShot() takes in no parameters. It assists the AI in 
+*playing with medium difficulty. 
+*hits is zero until an initial hit is made. It hits randomly 
+*until hits is incremented to 1. Once a hit is made the AI shoots up first then right 
+*then down then left. It continues on in the direction of a hit until the entire ship is sunk 
+*then hits turns to 0 and the AI goes back to shooting randomly 
+*@param none 
+*@return none 
+*/ 
 function mediumShot(){
 	//use hitBoard() after calculating index
 	
