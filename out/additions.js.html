@@ -1,4 +1,32 @@
-let prevRow;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: additions.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: additions.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>let prevRow;
 let prevCol;
 let p1Power;
 let p2Power;
@@ -32,7 +60,7 @@ let shipNum;
 */ 
 function aiPlaceShips(numShips){
 	let oriOptions = ['u','d','l','r'];
-	for (i = 0; i < numShips; i++) {
+	for (i = 0; i &lt; numShips; i++) {
 		let shipLength = i;
 		x = Math.floor(Math.random() * (row)+1);
 		y = Math.floor(Math.random() * (col)+1);
@@ -41,8 +69,8 @@ function aiPlaceShips(numShips){
 		let valid = true;
 		let testX = x;
 		let testY = y;
-		for (let j = 0; j < shipLength + 1; j++) { //making sure placement is valid
-		  if (testX < 1 || testY < 1 || testX > 9 || testY > 10) { //*** changed to 1-9 & 1-10
+		for (let j = 0; j &lt; shipLength + 1; j++) { //making sure placement is valid
+		  if (testX &lt; 1 || testY &lt; 1 || testX > 9 || testY > 10) { //*** changed to 1-9 &amp; 1-10
 			valid = false;
 			i -= 1;
 			break;
@@ -63,7 +91,7 @@ function aiPlaceShips(numShips){
 		  }
 		}
 		if (valid == true) {
-		  for (let j = 0; j < shipLength + 1; j++) {
+		  for (let j = 0; j &lt; shipLength + 1; j++) {
 			board4[y - 1][x - 1] = shipLength + 1;  //***Test, indicates ship at i,j need to change to shiplength
 			if (orientation == 'u') {
 			  y--;
@@ -94,9 +122,9 @@ function aiPlaceShips(numShips){
 */ 
 function storePlayerShips(){
 	userShips.length = 0;
-	for(let r = 0; r < col; r++){
-		for(let c = 0; c < row; c++){
-			if(board3[r][c] != 0 && board3[r][c] != 7){
+	for(let r = 0; r &lt; col; r++){
+		for(let c = 0; c &lt; row; c++){
+			if(board3[r][c] != 0 &amp;&amp; board3[r][c] != 7){
 				// store location of each "ship circle" in userShips
 				userShips.push([c, r]); 
 			}
@@ -162,7 +190,7 @@ function mediumShot(){
 				break;
 			}
 		}
-		if(p2Power <= turnCount){
+		if(p2Power &lt;= turnCount){
 			dir = Math.floor(Math.random() * 2);
 			if(dir == 1){
 				p2PowerDir = 'row'
@@ -183,8 +211,8 @@ function mediumShot(){
 				trow=AiRow; 
 				tcol=AiCol;
 				let s = true;
-				for(let r = 0; r < col; r++){
-					for(let c = 0; c < row; c++){
+				for(let r = 0; r &lt; col; r++){
+					for(let c = 0; c &lt; row; c++){
 						if(board3[r][c] == shipNum){
 							s = false;
 						}
@@ -201,7 +229,7 @@ function mediumShot(){
 		let count = 0;
 		let dist = 1;
 		while(true){
-			if(trow-dist>=0 && tcol<9 && board2[trow-dist][tcol] == 0 && ((!(dist > 1) && !(board3[trow-dist][tcol] == shipNum)) || (board3[trow-dist][tcol] == shipNum)))//check up 
+			if(trow-dist>=0 &amp;&amp; tcol&lt;9 &amp;&amp; board2[trow-dist][tcol] == 0 &amp;&amp; ((!(dist > 1) &amp;&amp; !(board3[trow-dist][tcol] == shipNum)) || (board3[trow-dist][tcol] == shipNum)))//check up 
 			{
 				console.log('up');
 				if (board3[trow-dist][tcol]==shipNum)
@@ -219,7 +247,7 @@ function mediumShot(){
 					break;
 				}
 			}
-			else if(trow<10 && tcol+dist<9 && board2[trow][tcol+dist] == 0 && ((!(dist > 1) && !(board3[trow][tcol+dist] == shipNum)) || (board3[trow][tcol+dist] == shipNum)))//check right
+			else if(trow&lt;10 &amp;&amp; tcol+dist&lt;9 &amp;&amp; board2[trow][tcol+dist] == 0 &amp;&amp; ((!(dist > 1) &amp;&amp; !(board3[trow][tcol+dist] == shipNum)) || (board3[trow][tcol+dist] == shipNum)))//check right
 			{
 				console.log('right');
 				if (board3[trow][tcol+dist]==shipNum)
@@ -237,7 +265,7 @@ function mediumShot(){
 					break;
 				}
 			}
-			else if(trow+dist<10 && tcol<9 && board2[trow+dist][tcol] == 0 && ((!(dist > 1) && !(board3[trow+dist][tcol] == shipNum)) || (board3[trow+dist][tcol] == shipNum)))//check down
+			else if(trow+dist&lt;10 &amp;&amp; tcol&lt;9 &amp;&amp; board2[trow+dist][tcol] == 0 &amp;&amp; ((!(dist > 1) &amp;&amp; !(board3[trow+dist][tcol] == shipNum)) || (board3[trow+dist][tcol] == shipNum)))//check down
 			{
 				console.log('down');
 				if (board3[trow+dist][tcol]==shipNum)
@@ -255,7 +283,7 @@ function mediumShot(){
 					break;
 				}
 			}
-			else if(trow<10 && tcol-dist>=0 && board2[trow][tcol-dist] == 0 && ((!(dist > 1) && !(board3[trow][tcol-dist] == shipNum)) || (board3[trow][tcol-dist] == shipNum)))//check left
+			else if(trow&lt;10 &amp;&amp; tcol-dist>=0 &amp;&amp; board2[trow][tcol-dist] == 0 &amp;&amp; ((!(dist > 1) &amp;&amp; !(board3[trow][tcol-dist] == shipNum)) || (board3[trow][tcol-dist] == shipNum)))//check left
 			{
 				console.log('left');
 				if (board3[trow][tcol-dist]==shipNum)
@@ -292,8 +320,8 @@ function mediumShot(){
 			}
 		}
 		let s = true;
-		for(let r = 0; r < col; r++){
-			for(let c = 0; c < row; c++){
+		for(let r = 0; r &lt; col; r++){
+			for(let c = 0; c &lt; row; c++){
 				if(board3[r][c] == shipNum){
 					s = false;
 				}
@@ -343,21 +371,21 @@ function hardShot(){
 function orthoShot(player, c, r){
 	if(player == 0){
 		if(p1PowerDir == 'row'){
-			for(let i = 0; i < row; i++){
+			for(let i = 0; i &lt; row; i++){
 				hitBoard(player, i, r)
 			}
 		}else{
-			for(let i = 0; i < col; i++){
+			for(let i = 0; i &lt; col; i++){
 				hitBoard(player, c, i)
 			}
 		}
 	}else{
 		if(p2PowerDir == 'row'){
-			for(let i = 0; i < row; i++){
+			for(let i = 0; i &lt; row; i++){
 				hitBoard(player, i, r)
 			}
 		}else{
-			for(let i = 0; i < col; i++){
+			for(let i = 0; i &lt; col; i++){
 				hitBoard(player, c, i)
 			}
 		}
@@ -403,4 +431,26 @@ function aiTurn(){
 		changeTurn();
 		confirmChange();
 	}
-}
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#aiPlaceShips">aiPlaceShips</a></li><li><a href="global.html#aiTurn">aiTurn</a></li><li><a href="global.html#boards">boards</a></li><li><a href="global.html#calculateRandomTurn">calculateRandomTurn</a></li><li><a href="global.html#changeTurn">changeTurn</a></li><li><a href="global.html#confirmChange">confirmChange</a></li><li><a href="global.html#easyShot">easyShot</a></li><li><a href="global.html#hardShot">hardShot</a></li><li><a href="global.html#hitBoard">hitBoard</a></li><li><a href="global.html#mediumShot">mediumShot</a></li><li><a href="global.html#orthoShot">orthoShot</a></li><li><a href="global.html#placeShips">placeShips</a></li><li><a href="global.html#rounded1">rounded1</a></li><li><a href="global.html#storePlayerShips">storePlayerShips</a></li><li><a href="global.html#sunkShips">sunkShips</a></li><li><a href="global.html#updateLowerBoards">updateLowerBoards</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Sat Oct 09 2021 22:24:01 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
