@@ -11,6 +11,8 @@ let numShips1 = 0; //**
 let numShips2 = 0; //**
 let board1 = new Array(col); //top left player 1.
 
+
+//Initalizes the four 2D arrays used for the boards and fills them with zeros.
 for (let i = 0; i < col; i++) {
   board1[i] = new Array(row);
 }
@@ -39,8 +41,14 @@ for (let i = 0; i < col; i++) { //i is y coordinate
 
 document.write('<h1 id = "message" style = "text-align: center"; >Welcome to Battleship! Click the start button below to begin playing.</h1>');
 
-
-function boards(p, r, c) { //Currently just has board creating
+/**
+*This function draws the boards at the beginning of the game and after a turn change.
+*It draws the boards while the updateboard function fills them with color depending
+*on the game state.
+*@param none
+*@return none
+*/
+function boards() { //Currently just has board creating
   let yRange = 'ABCDEFGHIJ';
   for (let i = 0; i < col; i++) { //i is y coordinate
     for (let j = 0; j < row; j++) { //j is x coordinate
@@ -88,8 +96,11 @@ function boards(p, r, c) { //Currently just has board creating
 }
 
 /**
-* Allows users to place ships at start of game
-*Pre - none, Post - None
+*Prompts players to pick number of ships, how many players, 
+*and difficulty of the AI if applicable. It runs twice for each player if 2 people are playing,
+*or just once if the AI is playing. 
+*@param none
+*@return none
 */
 function placeShips() {
   if (numShips == 0) {
@@ -230,8 +241,10 @@ function placeShips() {
 }
 
 /**
-* Updates boards 3 and 4
-* Pre - none, Post - none
+*Handles drawing the board based on the board arrays, 
+*depending on whos turn it currently is.
+*@param none
+*@return none
 */
 function updateLowerBoards() {
   if (player == 0) {
@@ -366,8 +379,9 @@ document.addEventListener("click", e => {
 })
 
 /**
-*Switches to the screen where players will swap the device
-*Pre - none, Post - None
+*Switches to the screen where players will swap the device as well as switching the turn.
+*@param none
+*@return none
 */
 function changeTurn() {
   if (turnDone == 1) {
@@ -391,7 +405,10 @@ function changeTurn() {
 
 /**
 *Finishes the turn change, redisplaying the board for the other player
-*Pre - none, Post - None
+*The function also handles getting the direction for the players orthoShot()
+*as well as handling automatic ship placement if the ai is being played against.
+*@param none
+*@return none
 */
 function confirmChange() {
   swapping = 0;
@@ -430,7 +447,10 @@ function confirmChange() {
   }
 }
 /**
-* The function handles the logic for "shooting" at an opponents board given the game is still running and game setup is complete
+*This function handles the logic for "shooting" at an opponents board,
+*given the game is still running and game setup is complete
+*The function is provided the players who's turn it is, and a coordinate to shoot at.
+*If the coordinate is valid, it takes the shot and alters the boards to match.
 *@param player The player shooting currently
 *@param x The x-coordinate of the position being shot at
 *@param y The y-coordinate of the position being shot at
@@ -523,7 +543,8 @@ function hitBoard(player, x, y) {
 }
 
 /**
-* The function handles Displaying the "scoreboard" after every turn. Scoreboard displays total number of ships and number of ships left
+*This function handles drawing the "scoreboard" on the canvas after every turn. 
+*Scoreboard displays total number of ships and number of ships left for both players.
 *@param None
 *@return None
 */
@@ -540,7 +561,5 @@ function sunkShips() {
   context.strokeText(numShips1, 170, 70);
   context.strokeText(numShips2, 820, 70);
 }
-
-
 
 
